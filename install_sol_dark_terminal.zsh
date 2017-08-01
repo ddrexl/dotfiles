@@ -31,16 +31,17 @@ install_powerline_fonts() {
 
 install_solarized_color_scheme() {
     echo "install solarized color scheme"
-    local DIR="$HOME/.solarized"
+    local DIR="/tmp/solarized$$"
 
     if ! exists dconf; then
         echo "Package dconf-cli required for solarized colors!"
         return -1
-    elif [ ! -d $DIR ]; then
-        echo Install solarized color scheme
-        git clone git://github.com/sigurdga/gnome-terminal-colors-solarized.git $DIR
-        $DIR/install.sh
     fi
+
+    echo Install solarized color scheme
+    git clone https://github.com/sigurdga/gnome-terminal-colors-solarized $DIR
+    $DIR/install.sh
+    rm -rf $DIR
 }
 
 install_oh_my_zsh
