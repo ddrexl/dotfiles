@@ -26,15 +26,15 @@
             execute 'silent !curl -fLo ~/.vim/autoload/plug.vim https://raw.github.com/junegunn/vim-plug/master/plug.vim'
         endif
 
-        " Install powerline fonts if we don't already have it
-        if empty(glob("~/.fonts/ubuntu-mono-powerline-ttf"))
-            echo "Installing powerline fonts..\n"
-            silent !mkdir -p ~/.fonts/ubuntu-mono-powerline-ttf
-            execute 'silent !wget -q -P ~/.fonts/ubuntu-mono-powerline-ttf/ "https://raw.githubusercontent.com/powerline/fonts/master/UbuntuMono/Ubuntu Mono derivative Powerline Bold Italic.ttf"'
-            execute 'silent !wget -q -P ~/.fonts/ubuntu-mono-powerline-ttf/ "https://raw.githubusercontent.com/powerline/fonts/master/UbuntuMono/Ubuntu Mono derivative Powerline Bold.ttf"'
-            execute 'silent !wget -q -P ~/.fonts/ubuntu-mono-powerline-ttf/ "https://raw.githubusercontent.com/powerline/fonts/master/UbuntuMono/Ubuntu Mono derivative Powerline Italic.ttf"'
-            execute 'silent !wget -q -P ~/.fonts/ubuntu-mono-powerline-ttf/ "https://raw.githubusercontent.com/powerline/fonts/master/UbuntuMono/Ubuntu Mono derivative Powerline.ttf"'
+        " Install powerline symbols if we don't already have them
+        if empty(glob("~/.fonts/PowerlineSymbols.otf"))
+            echo "Installing powerline symbols..\n"
+            silent !mkdir -p ~/.fonts
+            execute 'silent !wget -q -P ~/.fonts/ "https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf"'
             execute 'silent !fc-cache -vf'
+
+            silent !mkdir -p ~/.config/fontconfig/conf.d
+            execute 'silent !wget -q -P ~/.config/fontconfig/conf.d/ "https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf"'
         endif
     " }
 
