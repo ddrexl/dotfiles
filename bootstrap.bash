@@ -20,7 +20,7 @@ function copy_to_home() {
         --exclude ".gitconfig" \
         --exclude ".vimrc.local" \
         --exclude "install_packages.bash" \
-        --exclude "install_sol_dark_terminal.bash" \
+        --exclude "install_sol_dark_terminal.zsh" \
         --exclude "README.md" \
         -avh --no-perms . ~;
     source ~/.bashrc;
