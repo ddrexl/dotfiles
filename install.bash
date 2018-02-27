@@ -100,43 +100,80 @@ configure_tmux() {
     cp .tmux.conf ~
 }
 
+configure_git() {
+    echo configure git
+
+    cd "$(dirname "${BASH_SOURCE}")";
+    cp .gitconfig_common ~
+    cp .gitignore ~
+    cp -r .git_template ~
+
+    # never overwrite existing .gitconfig
+    if [ ! -f ~/.gitconfig ]; then
+        cp .gitconfig ~
+    fi
+}
+
+configure_zsh() {
+    echo configure zsh
+
+    cd "$(dirname "${BASH_SOURCE}")";
+    cp .zshrc ~
+}
 
 IFS=', '
 read -p "Choose your option(s)
-1) install packages
-2)         oh_my_zsh!
-3)         powerline symbols
-4)         solarized color scheme
-5)         all of the above
-6) configure vim
-7)           tmux
+install
+    1) packages
+    2) oh_my_zsh!
+    3) powerline symbols
+    4) solarized color scheme
+    5) all of the above
+configure
+    6)  vim
+    7)  tmux
+    8)  git
+    9)  zsh
+    10) all of the above
 > " -a array
 
 for choice in "${array[@]}"; do
     case "$choice" in
-        [1]* )
+        1)
             install_packages
             ;;
-        [2]* )
+        2)
             install_oh_my_zsh
             ;;
-        [3]* )
+        3)
             install_powerline_symbols
             ;;
-        [4]* )
+        4)
             install_solarized_color_scheme
             ;;
-        [5]* )
+        5)
             install_packages
             install_oh_my_zsh
             install_powerline_symbols
             install_solarized_color_scheme
             ;;
-        [6]* )
+        6)
             configure_vim
             ;;
-        [7]* )
+        7)
             configure_tmux
+            ;;
+        8)
+            configure_git
+            ;;
+        9)
+            configure_zsh
+            ;;
+        10)
+            configure_vim
+            configure_tmux
+            configure_git
+            configure_zsh
             ;;
         *)
             echo invalid number
