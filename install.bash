@@ -1,7 +1,35 @@
-#!/bin/zsh
+#!/bin/bash
 
 exists() {
   command -v $1 >/dev/null 2>&1
+}
+
+install_packages() {
+echo install some basic command line utilities using apt
+
+packages=(
+build-essential
+clang-format
+cmake
+curl
+dconf-cli
+exuberant-ctags
+git
+python-dev
+python3-dev
+rsync
+tmux
+tmux
+tree
+vim
+xsel
+zsh
+)
+
+sudo apt update
+echo ${packages[*]} | xargs sudo apt install --assume-yes
+unset packages;
+
 }
 
 install_oh_my_zsh() {
@@ -9,8 +37,8 @@ install_oh_my_zsh() {
     sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 }
 
-install_powerline_fonts() {
-    echo "install powerline fonts"
+install_powerline_symbols() {
+    echo "install powerline symbols"
     local POWERLINE_URL="https://github.com/powerline/powerline/raw/develop/font"
     local POWERLINE_SYMBOLS_FILE="PowerlineSymbols.otf"
     local POWERLINE_SYMBOLS_CONF="10-powerline-symbols.conf"
@@ -44,6 +72,38 @@ install_solarized_color_scheme() {
     rm -rf $DIR
 }
 
-install_oh_my_zsh
-install_powerline_fonts
-install_solarized_color_scheme
+
+IFS=', '
+read -p "Choose your option(s)
+1) install packages
+2) install oh_my_zsh!
+3) install powerline symbols
+4) install solarized color scheme
+5) install all of the above
+> " -a array
+
+for choice in "${array[@]}"; do
+    case "$choice" in
+        [1]* )
+            install_packages
+            ;;
+        [2]* )
+            install_oh_my_zsh
+            ;;
+        [3]* )
+            install_powerline_symbols
+            ;;
+        [4]* )
+            install_solarized_color_scheme
+            ;;
+        [5]* )
+            install_packages
+            install_oh_my_zsh
+            install_powerline_symbols
+            install_solarized_color_scheme
+            ;;
+        *)
+            echo invalid number
+            ;;
+    esac
+done
