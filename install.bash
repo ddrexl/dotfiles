@@ -72,14 +72,36 @@ install_solarized_color_scheme() {
     rm -rf $DIR
 }
 
+configure_vim() {
+    echo configure vim
+
+    cd "$(dirname "${BASH_SOURCE}")";
+    cp .vimrc ~
+    cp .ycm_extra_conf.py ~
+    cp -r .vimcache ~
+
+    # never overwrite existing .vimrc.local
+    if [ ! -f ~/.vimrc.local ]; then
+        cp .vimrc.local ~
+    fi
+
+    # install vim plugins
+    vim "+PlugInstall" "+qa"
+
+    # compile youcompleteme
+    cd ~/.vim/plugged/youcompleteme || exit 1
+    ./install.py --clang-completer
+}
+
 
 IFS=', '
 read -p "Choose your option(s)
 1) install packages
-2) install oh_my_zsh!
-3) install powerline symbols
-4) install solarized color scheme
-5) install all of the above
+2)         oh_my_zsh!
+3)         powerline symbols
+4)         solarized color scheme
+5)         all of the above
+6) configure vim
 > " -a array
 
 for choice in "${array[@]}"; do
@@ -102,8 +124,15 @@ for choice in "${array[@]}"; do
             install_powerline_symbols
             install_solarized_color_scheme
             ;;
+        [6]* )
+            configure_vim
+            ;;
         *)
             echo invalid number
             ;;
     esac
 done
+
+
+
+
