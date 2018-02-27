@@ -23,8 +23,8 @@ Select the things you want.
 ## Your private configuration
 
 The following files are reserved for your private local configuration:
- - `~/.gitconfig`
  - `~/.vimrc.local`
+ - `~/.gitconfig`
 
 They won't be overwritten if they exist.
 
