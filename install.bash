@@ -93,6 +93,13 @@ configure_vim() {
     ./install.py --clang-completer
 }
 
+configure_tmux() {
+    echo configure tmux
+
+    cd "$(dirname "${BASH_SOURCE}")";
+    cp .tmux.conf ~
+}
+
 
 IFS=', '
 read -p "Choose your option(s)
@@ -102,6 +109,7 @@ read -p "Choose your option(s)
 4)         solarized color scheme
 5)         all of the above
 6) configure vim
+7)           tmux
 > " -a array
 
 for choice in "${array[@]}"; do
@@ -127,12 +135,11 @@ for choice in "${array[@]}"; do
         [6]* )
             configure_vim
             ;;
+        [7]* )
+            configure_tmux
+            ;;
         *)
             echo invalid number
             ;;
     esac
 done
-
-
-
-
