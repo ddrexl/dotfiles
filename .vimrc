@@ -80,30 +80,29 @@
 
     " Instead of reverting the cursor to the last position in the buffer, we
     " set it to the first line when editing a git commit message
-    au FileType gitcommit au! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
+    autocmd FileType gitcommit autocmd! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
 
-    " Undo and Backup directories
-    set backup                      " Backups are nice ...
+    augroup remapFILETYPES
+        autocmd BufNewFile,BufRead *.atom,*.launch,*.rss setfiletype xml
+    augroup END
+
+    set nobackup
+    set noswapfile
+
     if has('persistent_undo')
-        set undofile                " So is persistent undo ...
+        set undodir=~/.vim/undo     " Centralized undo
+        set undofile                " Persistent undo
         set undolevels=1000         " Maximum number of changes that can be undone
         set undoreload=10000        " Maximum number lines to save for undo on a buffer reload
+
+        call system("mkdir -p " . &undodir)
     endif
-
-    " Centralize backups, swapfiles and undo history
-    set backupdir=~/.vimcache/backups
-    set directory=~/.vimcache/swaps
-    set undodir=~/.vimcache/undo
-    " Don’t create backups when editing files in certain directories
-    set backupskip=/tmp/*,/private/tmp/*
-
 
     highlight clear SignColumn      " SignColumn should match background
     highlight clear LineNr          " Current line number row will have same background color in relative mode
 
     set viewoptions=folds,options,cursor,unix,slash " Better Unix / Windows compatibility
-    set background=dark
-    set clipboard=unnamed,unnamedplus   " Use + register for clipboard if possible
+    set clipboard=unnamed,unnamedplus               " Use + register for clipboard if possible
 
     set shortmess+=filmnrxoOtTI     " Abbrev. of messages (avoids 'hit enter')
     set virtualedit=onemore         " Allow for cursor beyond last character
@@ -163,9 +162,10 @@
 " }
 
 " Solarized Colorscheme {
+    set background=dark
+
     if filereadable(expand("~/.vim/plugged/vim-colors-solarized/colors/solarized.vim"))
-        let g:solarized_termcolors=16       " must have solarized palette in
-                                            " terminal emulator to work
+        let g:solarized_termcolors=256
         let g:solarized_termtrans=1
         let g:solarized_contrast="normal"
         let g:solarized_visibility="normal"
@@ -188,10 +188,17 @@
     set splitbelow                  " Puts new split windows to the bottom of the current
     set matchpairs+=<:>             " Match, to be used with %
     set pastetoggle=<F12>           " pastetoggle (sane indentation on pastes)
-    " Remove trailing whitespaces and ^M chars
+
     augroup stripWHITESPACE
         autocmd FileType c,cpp,python,xml,yml autocmd BufWritePre <buffer> call StripTrailingWhitespace()
+        autocmd FileType markdown let b:noStripTrailingWhitespace=1
     augroup END
+
+    augroup specialTABS
+        autocmd FileType cmake,yaml setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+        autocmd FileType make setlocal tabstop=8 softtabstop=8 shiftwidth=8 noexpandtab
+    augroup END
+
     let python_highlight_all = 1
 " }
 
@@ -467,6 +474,7 @@
         " Use the Solarized Dark theme
         set background=dark
         colorscheme solarized
+        set guifont=Ubuntu\ Mono\ 12
         set linespace=8             " Better line-height
         set guioptions-=T           " Remove the toolbar
         set lines=40                " 40 lines of text instead of 24
@@ -477,6 +485,11 @@
 
     " Strip whitespace {
         function! StripTrailingWhitespace()
+            " Only strip if the b:noStripTrailingWhitespace variable isn't set
+            if exists('b:noStripTrailingWhitespace')
+                return
+            endif
+
             " Preparation: save last search, and cursor position.
             let _s=@/
             let l = line(".")
