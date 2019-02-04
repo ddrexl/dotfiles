@@ -2,11 +2,11 @@
 #===============================================================================
 #
 #          FILE:  rise_content.sh
-# 
-#         USAGE:  ./rise_content.sh 
-# 
+#
+#         USAGE:  ./rise_content.sh
+#
 #   DESCRIPTION:  Moves all subdirectories' content one level up
-# 
+#
 #       VERSION:  1.0
 #       CREATED:  03/24/2010 04:24:05 PM CET
 #===============================================================================
@@ -19,9 +19,9 @@ usage: $0 options
 Move content of all subfolders to current directory
 
 OPTIONS:
-   -h 	Show this message
-   -c 	Change foldernames to be different from their content
-   -d   Delete empty subfolders afterwards   
+   -h     Show this message
+   -c     Change foldernames to be different from their content
+   -d     Delete empty subfolders afterwards
 
 EOF
 }
@@ -50,34 +50,34 @@ done
 
 for dir in *
 do
-	if [ -d "$dir" ]
-	then 
-		if [ $CHANGE -eq 1 ]
-		then
-			new_dir_name=${dir}_changed_name
-			mv "$dir" "$new_dir_name"
-			cd "$new_dir_name" || exit 1
-			echo moving up content of $dir
-			mv * ..
-			mv .* .. 2> /dev/null
-			cd ..
+    if [ -d "$dir" ]
+    then
+        if [ $CHANGE -eq 1 ]
+        then
+            new_dir_name=${dir}_changed_name
+            mv "$dir" "$new_dir_name"
+            cd "$new_dir_name" || exit 1
+            echo moving up content of $dir
+            mv * ..
+            mv .* .. 2> /dev/null
+            cd ..
 
-			if [ $DELETE -eq 1 ]
-			then
-				echo deleting $dir
-				rmdir "$new_dir_name"
-			fi
-		else
-			cd "$dir" || exit 1
-			echo moving up content of $dir
-			mv * ..
-			mv .* ..
-			cd ..
-			if [ $DELETE -eq 1 ]
-			then
-				echo deleting $dir
-				rmdir "$dir"
-			fi
-		fi
-	fi
+            if [ $DELETE -eq 1 ]
+            then
+                echo deleting $dir
+                rmdir "$new_dir_name"
+            fi
+        else
+            cd "$dir" || exit 1
+            echo moving up content of $dir
+            mv * ..
+            mv .* ..
+            cd ..
+            if [ $DELETE -eq 1 ]
+            then
+                echo deleting $dir
+                rmdir "$dir"
+            fi
+        fi
+    fi
 done

@@ -11,6 +11,6 @@ then
     echo but have residual config.
 
 else
-	dpkg -l | awk '/^rc/ {print $2}'
+    dpkg -l | awk '/^rc/ {print $2}'
 fi
 
