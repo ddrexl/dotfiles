@@ -73,11 +73,6 @@
     syntax enable                   " Syntax highlighting
     scriptencoding utf-8
 
-    " Always switch to the current file directory
-    augroup switchWD
-        autocmd BufEnter * if bufname("") !~ "^\[A-Za-z0-9\]*://" | lcd %:p:h | endif
-    augroup END
-
     " Instead of reverting the cursor to the last position in the buffer, we
     " set it to the first line when editing a git commit message
     autocmd FileType gitcommit autocmd! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
@@ -104,7 +99,7 @@
     set viewoptions=folds,options,cursor,unix,slash " Better Unix / Windows compatibility
     set clipboard=unnamed,unnamedplus               " Use + register for clipboard if possible
 
-    set shortmess+=filmnrxoOtTI     " Abbrev. of messages (avoids 'hit enter')
+    set shortmess+=filmnrxoOtTIc    " Abbrev. of messages (avoids 'hit enter')
     set virtualedit=onemore         " Allow for cursor beyond last character
     set history=1000                " Store a ton of history (default is 20)
     set nospell                     " Spell checking off
@@ -310,6 +305,7 @@
             let NERDTreeMouseMode=2
             let NERDTreeShowHidden=1
             let NERDTreeKeepTreeInNewTab=1
+            let g:NERDTreeWinSize=60
             let g:nerdtree_tabs_open_on_gui_startup=0
         endif
     " }
@@ -460,6 +456,7 @@
     " Clang Format {
         if isdirectory(expand("~/.vim/plugged/vim-clang-format/"))
             let g:clang_format#detect_style_file = 1
+            let g:clang_format#command = "clang-format-6.0"
 
             augroup clangFMT
                 autocmd FileType cpp let g:clang_format#auto_format = 1
