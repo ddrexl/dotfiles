@@ -9,11 +9,8 @@
 
 " Environment {
     set nocompatible                " Must be first line
-    if &shell =~# 'fish$' && (v:version < 704 || v:version == 704 && !has('patch276'))
-      set shell=/bin/bash
-    else
-      set shell=/bin/sh
-    endif
+    filetype off
+    set shell=/bin/bash
 " }
 
 " Plugins {
@@ -63,6 +60,7 @@
         Plug 'vimwiki/vimwiki'                  " Notes and todo lists in vim
         Plug 'vim-scripts/matchit.zip'          " Improve % operation
         Plug 'godlygeek/tabular'                " Text alignment
+        Plug 'Olical/vim-enmasse'               " Virtual quickfix list file!
 
         call plug#end()
     endif
@@ -178,12 +176,14 @@
     set expandtab                   " Tabs are spaces, not tabs
     set tabstop=4                   " An indentation every four columns
     set softtabstop=4               " Let backspace delete indent
+    set textwidth=79                " Break lines after 80 chars
     set nojoinspaces                " Prevents inserting two spaces after punctuation on a join (J)
     set splitright                  " Puts new vsplit windows to the right of the current
     set splitbelow                  " Puts new split windows to the bottom of the current
     set matchpairs+=<:>             " Match, to be used with %
     set pastetoggle=<F12>           " pastetoggle (sane indentation on pastes)
-
+    set fileformat=unix             " <NL> line endings
+    " Remove trailing whitespaces and ^M chars
     augroup stripWHITESPACE
         autocmd FileType c,cpp,python,xml,yml autocmd BufWritePre <buffer> call StripTrailingWhitespace()
         autocmd FileType markdown let b:noStripTrailingWhitespace=1
@@ -479,7 +479,6 @@
 " }
 
 " Functions {
-
     " Strip whitespace {
         function! StripTrailingWhitespace()
             " Only strip if the b:noStripTrailingWhitespace variable isn't set
