@@ -18,6 +18,7 @@ git
 python-dev
 python3-dev
 rsync
+silversearcher-ag
 tmux
 tmux
 tree
