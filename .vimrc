@@ -38,16 +38,19 @@
     if filereadable(expand("~/.vim/autoload/plug.vim"))
         call plug#begin('~/.vim/plugged')
 
+        Plug 'Olical/vim-enmasse'               " Virtual quickfix list file!
         Plug 'altercation/vim-colors-solarized' " Colorscheme
         Plug 'christoomey/vim-tmux-navigator'   " Seamless vim and tmux split navigation
         Plug 'ctrlpvim/ctrlp.vim'               " Fuzzy file opener
         Plug 'easymotion/vim-easymotion'        " Speed of light motion
+        Plug 'godlygeek/tabular'                " Text alignment
         Plug 'majutsushi/tagbar'                " Tags in sidebar
         Plug 'mbbill/undotree'                  " Undo sidebar
         Plug 'michaeljsmith/vim-indent-object'  " Indent object
         Plug 'rhysd/vim-clang-format', { 'for': 'cpp' }         " c++ formatting
         Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }  " File browser sidebar
         Plug 'sirver/ultisnips' | Plug 'honza/vim-snippets'     " Code snippets
+        Plug 'tpope/vim-abolish'                " Search, substitute and coerce declinations
         Plug 'tpope/vim-commentary'             " Code commenting
         Plug 'tpope/vim-fugitive'               " Git in Vim!!
         Plug 'tpope/vim-repeat'                 " Repeatable tpope commands
@@ -57,10 +60,8 @@
         Plug 'vim-airline/vim-airline'          " Statusline
         Plug 'vim-airline/vim-airline-themes'   " Solarized theme for airline
         Plug 'vim-scripts/argtextobj.vim'       " Argument object
-        Plug 'vimwiki/vimwiki'                  " Notes and todo lists in vim
         Plug 'vim-scripts/matchit.zip'          " Improve % operation
-        Plug 'godlygeek/tabular'                " Text alignment
-        Plug 'Olical/vim-enmasse'               " Virtual quickfix list file!
+        Plug 'vimwiki/vimwiki'                  " Notes and todo lists in vim
 
         call plug#end()
     endif
