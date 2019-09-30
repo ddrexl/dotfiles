@@ -253,9 +253,6 @@
     " toggle search highlighting
     nmap <silent> <leader>/ :nohlsearch<CR>
 
-    " Find merge conflict markers
-    " map <leader>fc /\v^[<\|=>] 7 ( .*\|$)<CR>
-
     " Shortcuts
     " Change Working Directory to that of the current file
     cmap cwd lcd %:p:h
@@ -275,16 +272,9 @@
     " Adjust viewports to the same size
     nnoremap <Leader>= <C-w>=
 
-    " Map <Leader>ff to display all lines with keyword under cursor
-    " and ask which one to jump to
-    "nmap <Leader>ff [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
-
     " Easier horizontal scrolling
     nnoremap zl zL
     nnoremap zh zH
-
-    " Easier formatting
-    "nnoremap <silent> <leader>q gwip
 
     " Open  quickfix window
     nnoremap <silent> <leader>q :copen<CR>
@@ -365,10 +355,6 @@
 
             if executable('ag')
                 let s:ctrlp_fallback = 'ag %s --nocolor -l -g ""'
-            elseif executable('ack-grep')
-                let s:ctrlp_fallback = 'ack-grep %s --nocolor -f'
-            elseif executable('ack')
-                let s:ctrlp_fallback = 'ack %s --nocolor -f'
             else
                 let s:ctrlp_fallback = 'find %s -type f'
             endif
