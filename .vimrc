@@ -140,7 +140,7 @@
     set list                        " Show “invisible” characters
     set listchars=tab:▸\ ,trail:•,extends:>,precedes:<,nbsp:.
     set ttyfast                     " Optimize for fast terminal connections
-    set encoding=utf-8              " Use UTF-8
+    set encoding=utf-8              " Use UTF-8, required for YCM
     set complete-=i
     set smarttab
     set nrformats-=octal            " Dont increment octals
@@ -173,6 +173,11 @@
 
     " colors for vimdiff
     highlight DiffText cterm=none ctermfg=White ctermbg=Red gui=none guifg=White guibg=Red
+
+    " Allow color schemes to do bright colors without forcing bold.
+    if &t_Co == 8 && $TERM !~# '^linux\|^Eterm'
+      set t_Co=16
+    endif
 " }
 
 " Formatting {
@@ -234,6 +239,10 @@
     " tab movement
     noremap <S-H> gT
     noremap <S-L> gt
+
+    " unimpaired like changelist traversal
+    nnoremap ]c g,
+    nnoremap [c g;
 
     " Yank from the cursor to the end of the line, to be consistent with C and D.
     nnoremap Y y$
