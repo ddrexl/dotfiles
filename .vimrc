@@ -386,6 +386,11 @@
             nnoremap <silent> <leader>gw :Gwrite<CR>
             nnoremap <silent> <leader>ge :Gedit<CR>
             "nnoremap <silent> <leader>gg :SignifyToggle<CR> todo
+
+            augroup fugitive_buffers
+                autocmd!
+                autocmd BufReadPost fugitive://* set bufhidden=delete
+            augroup END
         endif
     "}
 
