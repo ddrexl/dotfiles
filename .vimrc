@@ -163,7 +163,7 @@
     set background=dark
 
     if filereadable(expand("~/.vim/plugged/vim-colors-solarized/colors/solarized.vim"))
-        let g:solarized_termcolors=256
+        let g:solarized_termcolors=16
         let g:solarized_termtrans=1
         let g:solarized_contrast="normal"
         let g:solarized_visibility="normal"
@@ -173,10 +173,6 @@
     " colors for vimdiff
     highlight DiffText cterm=none ctermfg=White ctermbg=Red gui=none guifg=White guibg=Red
 
-    " Allow color schemes to do bright colors without forcing bold.
-    if &t_Co == 8 && $TERM !~# '^linux\|^Eterm'
-      set t_Co=16
-    endif
 " }
 
 " Formatting {
