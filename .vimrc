@@ -1,7 +1,6 @@
 " Modeline and Notes {
 " vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={,} foldlevel=0 foldmethod=marker spell:
 "
-"   This is the personal .vimrc file of Dominik.Drexl@bmw.de
 "   Everything is free for you to copy, but make sure you want and understand
 "   the parts you pick. If you just want to add or overwrite something, I
 "   recommend putting it in ~/.vimrc.local
@@ -76,7 +75,8 @@
     " set it to the first line when editing a git commit message
     autocmd FileType gitcommit autocmd! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
 
-    augroup remapFILETYPES
+    augroup remap_filetypes
+        autocmd!
         autocmd BufNewFile,BufRead *.atom,*.launch,*.rss setfiletype xml
     augroup END
 
@@ -194,12 +194,14 @@
     set pastetoggle=<F12>           " pastetoggle (sane indentation on pastes)
     set fileformat=unix             " <NL> line endings
     " Remove trailing whitespaces and ^M chars
-    augroup stripWHITESPACE
+    augroup strip_whitespace
+        autocmd!
         autocmd FileType c,cpp,python,xml,yml autocmd BufWritePre <buffer> call StripTrailingWhitespace()
         autocmd FileType markdown let b:noStripTrailingWhitespace=1
     augroup END
 
-    augroup specialTABS
+    augroup special_tabs
+        autocmd!
         autocmd FileType cmake,yaml setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
         autocmd FileType make setlocal tabstop=8 softtabstop=8 shiftwidth=8 noexpandtab
     augroup END
@@ -239,10 +241,6 @@
     " tab movement
     noremap <S-H> gT
     noremap <S-L> gt
-
-    " unimpaired like changelist traversal
-    nnoremap ]c g,
-    nnoremap [c g;
 
     " Yank from the cursor to the end of the line, to be consistent with C and D.
     nnoremap Y y$
@@ -284,13 +282,10 @@
 
 " Plugin Settings/Mappings {
 
-    " SnipMate {
-        let g:snips_author = 'Dominik Drexl <dominik.drexl@bmw.de>'
-    " }
-
     " Commentary {
         if isdirectory(expand("~/.vim/plugged/vim-commentary"))
-            augroup commentSTRING
+            augroup comment_string
+                autocmd!
                 autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
             augroup END
         endif
@@ -411,7 +406,8 @@
             let g:ycm_show_diagnostics_ui = 0
 
             " Enable omni completion.
-            augroup omniCOMPLETE
+            augroup omni_complete
+                autocmd!
                 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
                 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
                 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
@@ -458,7 +454,8 @@
             let g:clang_format#detect_style_file = 1
             let g:clang_format#command = "clang-format-6.0"
 
-            augroup clangFMT
+            augroup clang_format
+                autocmd!
                 autocmd FileType cpp let g:clang_format#auto_format = 1
             augroup END
         endif
