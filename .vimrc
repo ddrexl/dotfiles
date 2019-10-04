@@ -454,6 +454,18 @@
         endif
     " }
 
+    " UltiSnips {
+        if isdirectory(expand("~/.vim/plugged/ultisnips/"))
+            let g:snips_author = 'Dominik Drexl'
+        endif
+    " }
+
+    " Vimwiki {
+        if isdirectory(expand("~/.vim/plugged/vimwiki/"))
+            let g:vimwiki_listsyms = ' .oO✓'
+            let g:vimwiki_folding = 'expr'
+        endif
+    " }
 " }
 
 " GVim Settings {
