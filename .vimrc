@@ -44,7 +44,6 @@
         Plug 'easymotion/vim-easymotion'        " Speed of light motion
         Plug 'godlygeek/tabular'                " Text alignment
         Plug 'majutsushi/tagbar'                " Tags in sidebar
-        Plug 'mbbill/undotree'                  " Undo sidebar
         Plug 'michaeljsmith/vim-indent-object'  " Indent object
         Plug 'rhysd/vim-clang-format', { 'for': 'cpp' }         " c++ formatting
         Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }  " File browser sidebar
@@ -343,6 +342,7 @@
             nnoremap <leader>b :CtrlPBuffer<CR>
             nnoremap <leader>t :CtrlPTag<CR>
             nnoremap <leader>r :CtrlPMRU<CR>
+            nnoremap <leader>u :CtrlPUndo<CR>
 
             let g:ctrlp_custom_ignore = {
                 \ 'dir':  '\.git$\|\.hg$\|\.svn$',
@@ -425,14 +425,6 @@
             noremap <leader>.g :YcmCompleter GoTo<CR>
             noremap <leader>.f :YcmCompleter FixIt<CR>
             noremap <leader>.r :YcmCompleter GoToReferences<CR>
-        endif
-    " }
-
-    " UndoTree {
-        if isdirectory(expand("~/.vim/plugged/undotree/"))
-            nnoremap <Leader>u :UndotreeToggle<CR>
-            " If undotree is opened, it is likely one wants to interact with it.
-            let g:undotree_SetFocusWhenToggle=1
         endif
     " }
 
