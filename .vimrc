@@ -91,7 +91,9 @@
         call system("mkdir -p " . &undodir)
     endif
 
-    if executable('ag')
+    if executable('rg')
+        set grepprg=rg\ --color=never
+    elseif executable('ag')
         set grepprg=ag\ --vimgrep\ --smart-case\ $*
         set grepformat=%f:%l:%c:%m
     endif
@@ -344,22 +346,22 @@
                 \ 'dir':  '\.git$\|\.hg$\|\.svn$',
                 \ 'file': '\.exe$\|\.so$\|\.dll$\|\.pyc$' }
 
-            if executable('ag')
-                let s:ctrlp_fallback = 'ag %s --nocolor -l -g ""'
+            if executable('rg')
+                let g:ctrlp_user_command = 'rg %s --color=never --files --glob ""'
+                let g:ctrlp_use_caching = 0
+            elseif executable('ag')
+                let g:ctrlp_user_command = 'ag %s --nocolor -l -g ""'
+                let g:ctrlp_use_caching = 0
             else
                 let s:ctrlp_fallback = 'find %s -type f'
+                let g:ctrlp_user_command = {
+                    \ 'types': {
+                        \ 1: ['.git', 'cd %s && git ls-files . --cached --exclude-standard --others'],
+                        \ 2: ['.hg', 'hg --cwd %s locate -I .'],
+                    \ },
+                    \ 'fallback': s:ctrlp_fallback
+                \ }
             endif
-
-            if exists("g:ctrlp_user_command")
-                unlet g:ctrlp_user_command
-            endif
-            let g:ctrlp_user_command = {
-                \ 'types': {
-                    \ 1: ['.git', 'cd %s && git ls-files . --cached --exclude-standard --others'],
-                    \ 2: ['.hg', 'hg --cwd %s locate -I .'],
-                \ },
-                \ 'fallback': s:ctrlp_fallback
-            \ }
         endif
     "}
 
