@@ -95,7 +95,9 @@
     endif
 
     if executable('rg')
-        set grepprg=rg\ --color=never
+        " search hidden files too
+        set grepprg=rg\ -uu\ --color=never\ --vimgrep\ --no-heading
+        set grepformat=%f:%l:%c:%m,%f:%l:%m
     elseif executable('ag')
         set grepprg=ag\ --vimgrep\ --smart-case\ $*
         set grepformat=%f:%l:%c:%m
