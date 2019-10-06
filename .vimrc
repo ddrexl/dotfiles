@@ -14,24 +14,34 @@
 
 " Plugins {
     " First Time Only Installs {
-        " Install vim-plug if we don't already have it
-        if empty(glob("~/.vim/autoload/plug.vim"))
-            echo "Installing plug.vim..\n"
-            silent !mkdir -p ~/.vim/autoload
-            silent !mkdir -p ~/.vim/plugged
-            execute 'silent !curl -fLo ~/.vim/autoload/plug.vim https://raw.github.com/junegunn/vim-plug/master/plug.vim'
-        endif
+        function! s:InstallVimPlugOnce()
+            if empty(glob("~/.vim/autoload/plug.vim"))
+                echo "Installing plug.vim..\n"
+                silent execute "!mkdir -p ~/.vim/autoload"
+                silent execute "!mkdir -p ~/.vim/plugged"
+                silent execute "!curl -fLo ~/.vim/autoload/plug.vim https://raw.github.com/junegunn/vim-plug/master/plug.vim"
+            endif
+        endfunction
 
-        " Install powerline symbols if we don't already have them
-        if empty(glob("~/.fonts/PowerlineSymbols.otf"))
-            echo "Installing powerline symbols..\n"
-            silent !mkdir -p ~/.fonts
-            execute 'silent !wget -q -P ~/.fonts/ "https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf"'
-            execute 'silent !fc-cache -vf'
+        call s:InstallVimPlugOnce()
 
-            silent !mkdir -p ~/.config/fontconfig/conf.d
-            execute 'silent !wget -q -P ~/.config/fontconfig/conf.d/ "https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf"'
-        endif
+        function! s:InstallPowerlineSymbolsOnce()
+            let l:font_dir = "~/.local/share/fonts/"
+            if empty(glob(l:font_dir . "PowerlineSymbols.otf"))
+                echo "Installing powerline symbols..\n"
+
+                silent execute "!mkdir -p     " . l:font_dir
+                silent execute "!curl -fLo    " . l:font_dir . "PowerlineSymbols.otf https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf"
+                silent execute "!fc-cache -vf " . l:font_dir
+
+                let l:fontconfig_dir = "~/.config/fontconfig/conf.d/"
+                silent execute "!mkdir -p  " . l:fontconfig_dir
+                silent execute "!curl -fLo " . l:fontconfig_dir . "10-powerline-symbols.conf https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf"
+            endif
+        endfunction
+
+        call s:InstallPowerlineSymbolsOnce()
+
     " }
 
     if filereadable(expand("~/.vim/autoload/plug.vim"))
@@ -195,6 +205,7 @@
     set matchpairs+=<:>             " Match, to be used with %
     set pastetoggle=<F12>           " pastetoggle (sane indentation on pastes)
     set fileformat=unix             " <NL> line endings
+
     " Remove trailing whitespaces and ^M chars
     augroup strip_whitespace
         autocmd!
@@ -490,49 +501,26 @@
 " Functions {
     " Strip whitespace {
         function! StripTrailingWhitespace()
-            " Only strip if the b:noStripTrailingWhitespace variable isn't set
             if exists('b:noStripTrailingWhitespace')
                 return
             endif
 
-            " Preparation: save last search, and cursor position.
+            " save last search, and cursor position.
             let _s=@/
             let l = line(".")
             let c = col(".")
-            " do the business:
+
+            " strip whitespace
             %s/\s\+$//e
-            " clean up: restore previous search history, and cursor position
+
+            " restore last search, and cursor position
             let @/=_s
             call cursor(l, c)
         endfunction
     " }
 
-    " Shell command {
-        function! s:RunShellCommand(cmdline)
-            botright new
-
-            setlocal buftype=nofile
-            setlocal bufhidden=delete
-            setlocal nobuflisted
-            setlocal noswapfile
-            setlocal nowrap
-            setlocal filetype=shell
-            setlocal syntax=shell
-
-            call setline(1, a:cmdline)
-            call setline(2, substitute(a:cmdline, '.', '=', 'g'))
-            execute 'silent $read !' . escape(a:cmdline, '%#')
-            setlocal nomodifiable
-            1
-        endfunction
-
-        command! -complete=file -nargs=+ Shell call s:RunShellCommand(<q-args>)
-        " e.g. Grep current file for <search_term>: Shell grep -Hn <search_term> %
-    " }
-
     " Search visual selection {
         " Search visual selection with * and #
-        " From an idea by Michael Naumann
         function! VisualSearch(direction) range
             let l:saved_reg = @"
             execute "normal! vgvy"
@@ -550,7 +538,6 @@
             let @" = l:saved_reg
         endfunction
 
-        " Basically you press * or # to search for the current selection
         vnoremap <silent> * :call VisualSearch('f')<CR>
         vnoremap <silent> # :call VisualSearch('b')<CR>
     " }
