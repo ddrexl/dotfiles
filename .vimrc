@@ -1,5 +1,5 @@
 " Modeline and Notes {
-" vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={,} foldlevel=0 foldmethod=marker spell:
+" vim: set sw=4 ts=4 sts=4 et tw=78 fmr={,} fdl=0 fdm=marker spell:
 "
 "   Everything is free for you to copy, but make sure you want and understand
 "   the parts you pick. If you just want to add or overwrite something, I
@@ -7,7 +7,7 @@
 " }
 
 " Environment {
-    set nocompatible                " Must be first line
+    set nocompatible    " Must be first line
     filetype off
     set shell=/bin/bash
 " }
@@ -128,6 +128,98 @@
     filetype plugin indent on       " Automatically detect file types.
     syntax enable                   " Syntax highlighting
 
+    highlight clear SignColumn      " SignColumn should match background
+    highlight clear LineNr          " Current line number row will have same background color in relative mode
+
+    set autoread                    " Refresh buffers automatically
+    set backspace=indent,eol,start  " Allow backspace in insert mode
+    set cursorline                  " Highlight current line
+    set display+=lastline           " No legacy vi display
+    set encoding=utf-8              " Use UTF-8, required for YCM
+    set foldenable                  " Auto fold code
+    set hidden                      " Allow buffer switching without saving
+    set history=1000                " Store a ton of history (default is 20)
+    set hlsearch                    " Highlight search terms
+    set ignorecase                  " Case insensitive search
+    set incsearch                   " Find as you type search
+    set iskeyword-=#                " '#' is an end of word designator
+    set iskeyword-=-                " '-' is an end of word designator
+    set iskeyword-=.                " '.' is an end of word designator
+    set laststatus=2                " Last window always has a statusline
+    set linespace=0                 " No extra spaces between rows
+    set list                        " Show “invisible” characters
+    set listchars=tab:▸\ ,trail:•,extends:>,precedes:<,nbsp:.
+    set mouse=a                     " Enable mouse in all modes
+    set nobackup                    " Dont create backup files
+    set noerrorbells                " Disable error bells
+    set nospell                     " Spell checking off
+    set noswapfile                  " Dont create swap files
+    set nrformats-=octal            " Dont increment octals
+    set number                      " Show line numbers
+    set scrolljump=5                " Lines to scroll when cursor leaves screen
+    set scrolloff=1                 " Minimum lines to keep above and below cursor
+    set sessionoptions-=options     " Dont save everything of the session
+    set shortmess+=filmnrxoOtTIc    " Abbrev. of messages (avoids 'hit enter')
+    set showmatch                   " Show matching brackets/parenthesis
+    set smartcase                   " Case sensitive when search contains upper case
+    set smarttab                    " Tab handles whitespace correctly
+    set title                       " Show the filename in the window titlebar
+    set ttyfast                     " Optimize for fast terminal connections
+    set virtualedit=onemore         " Allow for cursor beyond last character
+    set whichwrap=b,s,<,>,[,]       " Cursor keys wrap too
+    set wildmenu                    " Show list instead of just completing
+    set wildmode=list:longest,full  " Command <Tab> completion, list matches, then longest common part, then all.
+    set winminheight=0              " Allow windows to be squashed to just a status bar
+
+    " Conditional Settings {
+        if has("clipboard")
+            set clipboard=unnamed,unnamedplus " Connect clipboard registers * and + to default register
+        else
+            echoerr "Your vim has no clipboard support!"
+        endif
+
+        if has("mksession")
+            set viewoptions=folds,options,cursor,unix,slash " Better Unix / Windows compatibility
+        endif
+
+        if v:version > 703 || v:version == 703 && has("patch541")
+          set formatoptions+=j          " Delete comment character when joining commented lines
+        endif
+
+        if has("patch-8.1-1365")
+            set modeline
+        else
+            set nomodeline              " security issue without this patch
+        endif
+
+        if has('path_extra')
+          setglobal tags-=./tags tags-=./tags; tags^=./tags;
+        endif
+
+        if !empty(&viminfo)
+          set viminfo^=!
+        endif
+
+        if has('persistent_undo')
+            set undodir=~/.vim/undo     " Centralized undo
+            set undofile                " Persistent undo
+            set undolevels=1000         " Maximum number of changes that can be undone
+            set undoreload=10000        " Maximum number lines to save for undo on a buffer reload
+
+            silent execute "!mkdir -p " . &undodir
+        endif
+
+        " check if better grep alternatives are available
+        if executable('rg')
+            " search hidden files too
+            set grepprg=rg\ -uu\ --color=never\ --vimgrep\ --no-heading
+            set grepformat=%f:%l:%c:%m,%f:%l:%m
+        elseif executable('ag')
+            set grepprg=ag\ --vimgrep\ --smart-case\ $*
+            set grepformat=%f:%l:%c:%m
+        endif
+    " }
+
     augroup git_commit
         " Instead of reverting the cursor to the last position in the buffer, we
         " set it to the first line when editing a git commit message
@@ -139,89 +231,6 @@
         autocmd!
         autocmd BufNewFile,BufRead *.atom,*.launch,*.rss setfiletype xml
     augroup END
-
-    set nobackup
-    set noswapfile
-
-    if has('persistent_undo')
-        set undodir=~/.vim/undo     " Centralized undo
-        set undofile                " Persistent undo
-        set undolevels=1000         " Maximum number of changes that can be undone
-        set undoreload=10000        " Maximum number lines to save for undo on a buffer reload
-
-        call system("mkdir -p " . &undodir)
-    endif
-
-    if executable('rg')
-        " search hidden files too
-        set grepprg=rg\ -uu\ --color=never\ --vimgrep\ --no-heading
-        set grepformat=%f:%l:%c:%m,%f:%l:%m
-    elseif executable('ag')
-        set grepprg=ag\ --vimgrep\ --smart-case\ $*
-        set grepformat=%f:%l:%c:%m
-    endif
-
-    highlight clear SignColumn      " SignColumn should match background
-    highlight clear LineNr          " Current line number row will have same background color in relative mode
-
-    set viewoptions=folds,options,cursor,unix,slash " Better Unix / Windows compatibility
-    set clipboard=unnamed,unnamedplus               " Use + register for clipboard if possible
-
-    set shortmess+=filmnrxoOtTIc    " Abbrev. of messages (avoids 'hit enter')
-    set virtualedit=onemore         " Allow for cursor beyond last character
-    set history=1000                " Store a ton of history (default is 20)
-    set nospell                     " Spell checking off
-    set hidden                      " Allow buffer switching without saving
-    set iskeyword-=.                " '.' is an end of word designator
-    set iskeyword-=#                " '#' is an end of word designator
-    set iskeyword-=-                " '-' is an end of word designator
-
-    set title                       " Show the filename in the window titlebar
-    set autoread                    " Refresh buffers automatically
-    set mouse=a                     " Enable mouse in all modes
-    set noerrorbells                " Disable error bells
-    set modeline                    " Respect modeline in files
-    set modelines=4
-    set tabpagemax=15               " Only show 15 tabs
-    set cursorline                  " Highlight current line
-    set laststatus=2                " Last window always has a statusline
-    set backspace=indent,eol,start  " Allow backspace in insert mode
-    set linespace=0                 " No extra spaces between rows
-    set number                      " Show line numbers
-    set showmatch                   " Show matching brackets/parenthesis
-    set incsearch                   " Find as you type search
-    set hlsearch                    " Highlight search terms
-    set gdefault                    " Add the g flag to search/replace by default
-    set winminheight=0              " Windows can be 0 line high
-    set ignorecase                  " Case insensitive search
-    set smartcase                   " Case sensitive when uc present
-    set wildmenu                    " Show list instead of just completing
-    set wildmode=list:longest,full  " Command <Tab> completion, list matches, then longest common part, then all.
-    set whichwrap=b,s,h,l,<,>,[,]   " Backspace and cursor keys wrap too
-    set scrolljump=5                " Lines to scroll when cursor leaves screen
-    set scrolloff=1                 " Minimum lines to keep above and below cursor
-    set foldenable                  " Auto fold code
-    set list                        " Show “invisible” characters
-    set listchars=tab:▸\ ,trail:•,extends:>,precedes:<,nbsp:.
-    set ttyfast                     " Optimize for fast terminal connections
-    set encoding=utf-8              " Use UTF-8, required for YCM
-    set complete-=i
-    set smarttab
-    set nrformats-=octal            " Dont increment octals
-    set sessionoptions-=options     " Dont save everything of the session
-    set display+=lastline           " No legacy vi display
-
-    if v:version > 703 || v:version == 703 && has("patch541")
-      set formatoptions+=j          " Delete comment character when joining commented lines
-    endif
-
-    if has('path_extra')
-      setglobal tags-=./tags tags-=./tags; tags^=./tags;
-    endif
-
-    if !empty(&viminfo)
-      set viminfo^=!
-    endif
 " }
 
 " Colorscheme Solarized {
