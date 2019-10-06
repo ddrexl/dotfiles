@@ -1,36 +1,38 @@
 #!/bin/bash
+# TODO help, opitonal force link
+
+DOTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 exists() {
-  command -v $1 >/dev/null 2>&1
+    command -v $1 >/dev/null 2>&1
 }
 
 install_packages() {
-echo install some basic command line utilities using apt
+    echo install some basic command line utilities using apt
 
-packages=(
-build-essential
-clang-format
-cmake
-curl
-dconf-cli
-exuberant-ctags
-git
-python-dev
-python3-dev
-rsync
-silversearcher-ag
-tmux
-tmux
-tree
-vim
-xsel
-zsh
-)
+    packages=(
+    build-essential
+    clang-format
+    cmake
+    curl
+    dconf-cli
+    exuberant-ctags
+    git
+    python-dev
+    python3-dev
+    rsync
+    silversearcher-ag
+    tmux
+    tmux
+    tree
+    vim
+    xsel
+    zsh
+    )
 
-sudo apt update
-echo ${packages[*]} | xargs sudo apt install --assume-yes
-unset packages;
-
+    sudo apt update
+    echo ${packages[*]} | xargs sudo apt install --assume-yes
+    unset packages;
 }
 
 install_oh_my_zsh() {
@@ -104,14 +106,19 @@ configure_tmux() {
 configure_git() {
     echo configure git
 
-    cd "$(dirname "${BASH_SOURCE}")";
-    cp .gitconfig_common ~
-    cp .gitignore ~
-    cp -r .git_template ~
+    ln -sv ${DOTDIR}/gitconfig.base ~/.gitconfig.base
+    ln -sv ${DOTDIR}/gitignore ~/.gitignore
+
+    if [ ! -e ~/.git_template ]; then
+        ln -sv ${DOTDIR}/git_template ~/.git_template
+    else
+        echo could not create ~/.git_template/ as it already exists
+    fi
 
     # never overwrite existing .gitconfig
     if [ ! -f ~/.gitconfig ]; then
-        cp .gitconfig ~
+        cp ${DOTDIR}/gitconfig ~/.gitconfig
+        echo please edit your user in ~/.gitconfig
     fi
 }
 
@@ -181,3 +188,6 @@ for choice in "${array[@]}"; do
             ;;
     esac
 done
+unset DOTDIR
+
+# vim:set et sw=4 ts=4 fdm=indent:

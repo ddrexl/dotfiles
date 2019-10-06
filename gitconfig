@@ -1,0 +1,6 @@
+# vim: sw=4 ts=4 et filetype=gitconfig:
+[user]
+    name = John Doe
+    email = john.doe@domain.com
+[include]
+    path = ~/.gitconfig.base
