@@ -12,8 +12,53 @@
     set shell=/bin/bash
 " }
 
-" Plugins {
-    " First Time Only Installs {
+" Functions {
+    scriptencoding utf-8
+
+    " StripTrailingWhitespace {
+        function! StripTrailingWhitespace()
+            if exists('b:noStripTrailingWhitespace')
+                return
+            endif
+
+            " save last search, and cursor position.
+            let _s=@/
+            let l = line(".")
+            let c = col(".")
+
+            " strip whitespace
+            %s/\s\+$//e
+
+            " restore last search, and cursor position
+            let @/=_s
+            call cursor(l, c)
+        endfunction
+    " }
+
+    " VisualSearch {
+        " Search visual selection with * and #
+        function! VisualSearch(direction) range
+            let l:saved_reg = @"
+            execute "normal! vgvy"
+
+            let l:pattern = escape(@", '\\/.*$^~[]')
+            let l:pattern = substitute(l:pattern, "\n$", "", "")
+
+            if a:direction == 'f'
+                execute "normal /" . l:pattern . "^M"
+            elseif a:direction == 'b'
+                execute "normal ?" . l:pattern . "^M"
+            endif
+
+            let @/ = l:pattern
+            let @" = l:saved_reg
+        endfunction
+
+        vnoremap <silent> * :call VisualSearch('f')<CR>
+        vnoremap <silent> # :call VisualSearch('b')<CR>
+    " }
+
+    " InstallVimPlugOnce {
         function! s:InstallVimPlugOnce()
             if empty(glob("~/.vim/autoload/plug.vim"))
                 echo "Installing plug.vim..\n"
@@ -22,9 +67,9 @@
                 silent execute "!curl -fLo ~/.vim/autoload/plug.vim https://raw.github.com/junegunn/vim-plug/master/plug.vim"
             endif
         endfunction
+    " }
 
-        call s:InstallVimPlugOnce()
-
+    " InstallPowerlineSymbolsOnce {
         function! s:InstallPowerlineSymbolsOnce()
             let l:font_dir = "~/.local/share/fonts/"
             if empty(glob(l:font_dir . "PowerlineSymbols.otf"))
@@ -39,9 +84,13 @@
                 silent execute "!curl -fLo " . l:fontconfig_dir . "10-powerline-symbols.conf https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf"
             endif
         endfunction
+    " }
+" }
 
+" Plugins {
+    " First Time Only Installs {
+        call s:InstallVimPlugOnce()
         call s:InstallPowerlineSymbolsOnce()
-
     " }
 
     if filereadable(expand("~/.vim/autoload/plug.vim"))
@@ -78,7 +127,6 @@
 " General {
     filetype plugin indent on       " Automatically detect file types.
     syntax enable                   " Syntax highlighting
-    scriptencoding utf-8
 
     augroup git_commit
         " Instead of reverting the cursor to the last position in the buffer, we
@@ -496,51 +544,6 @@
         set guioptions-=T           " Remove the toolbar
         set lines=40                " 40 lines of text instead of 24
     endif
-" }
-
-" Functions {
-    " Strip whitespace {
-        function! StripTrailingWhitespace()
-            if exists('b:noStripTrailingWhitespace')
-                return
-            endif
-
-            " save last search, and cursor position.
-            let _s=@/
-            let l = line(".")
-            let c = col(".")
-
-            " strip whitespace
-            %s/\s\+$//e
-
-            " restore last search, and cursor position
-            let @/=_s
-            call cursor(l, c)
-        endfunction
-    " }
-
-    " Search visual selection {
-        " Search visual selection with * and #
-        function! VisualSearch(direction) range
-            let l:saved_reg = @"
-            execute "normal! vgvy"
-
-            let l:pattern = escape(@", '\\/.*$^~[]')
-            let l:pattern = substitute(l:pattern, "\n$", "", "")
-
-            if a:direction == 'f'
-                execute "normal /" . l:pattern . "^M"
-            elseif a:direction == 'b'
-                execute "normal ?" . l:pattern . "^M"
-            endif
-
-            let @/ = l:pattern
-            let @" = l:saved_reg
-        endfunction
-
-        vnoremap <silent> * :call VisualSearch('f')<CR>
-        vnoremap <silent> # :call VisualSearch('b')<CR>
-    " }
 " }
 
 " Use local vimrc if available {
