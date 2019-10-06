@@ -224,7 +224,7 @@
     endif
 " }
 
-" Solarized Colorscheme {
+" Colorscheme Solarized {
     set background=dark
 
     if filereadable(expand("~/.vim/plugged/vim-colors-solarized/colors/solarized.vim"))
@@ -237,7 +237,6 @@
 
     " colors for vimdiff
     highlight DiffText cterm=none ctermfg=White ctermbg=Red gui=none guifg=White guibg=Red
-
 " }
 
 " Formatting {
@@ -342,7 +341,6 @@
 " }
 
 " Plugin Settings/Mappings {
-
     " Commentary {
         if isdirectory(expand("~/.vim/plugged/vim-commentary"))
             augroup comment_string
@@ -536,9 +534,6 @@
 
 " GVim Settings {
     if has('gui_running')
-        " Use the Solarized Dark theme
-        set background=dark
-        colorscheme solarized
         set guifont=Ubuntu\ Mono\ 12
         set linespace=8             " Better line-height
         set guioptions-=T           " Remove the toolbar
@@ -546,7 +541,7 @@
     endif
 " }
 
-" Use local vimrc if available {
+" Source local vimrc if available {
     if filereadable(expand("~/.vimrc.local"))
         source ~/.vimrc.local
     endif
