@@ -1,9 +1,10 @@
 " Modeline and Notes {
 " vim: set sw=4 ts=4 sts=4 et tw=78 fmr={,} fdl=0 fdm=marker spell:
 "
-"   Everything is free for you to copy, but make sure you want and understand
-"   the parts you pick. If you just want to add or overwrite something, I
-"   recommend putting it in ~/.vimrc.local
+"   Everything is free for you to use.
+"   If you just want to customize a few things, I recommend putting it in
+"   ~/.vimrc.local
+"   If you want to pick something out, make sure you understand what you do.
 " }
 
 " Environment {
