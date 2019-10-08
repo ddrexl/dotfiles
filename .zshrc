@@ -1,5 +1,7 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
+fpath+=~/.zfunc
+compinit
 
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
@@ -80,7 +82,14 @@ export EDITOR='vim'
 #
 eval `dircolors ~/.dir_colors/dircolors`
 
-alias t='tmux attach || tmux new'
-alias tt='tmux attach -t 1 || tmux new -t 0'
+alias t='tmux attach -t 0 || tmux new'
+alias tt='tmux attach -t 0-1 || tmux new -t 0'
 
-export PATH="/usr/lib/ccache:$PATH"
+# history search
+ bindkey "^[OA" history-beginning-search-backward
+ bindkey "^[OB" history-beginning-search-forward
+ bindkey "^P" history-beginning-search-backward
+ bindkey "^N" history-beginning-search-forward
+
+# direnv
+eval "$(direnv hook zsh)"
