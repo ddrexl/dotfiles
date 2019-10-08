@@ -10,7 +10,7 @@ exists() {
 install_packages() {
     echo install some basic command line utilities using apt
 
-    packages=(
+    local packages=(
     build-essential
     clang-format
     curl
@@ -28,7 +28,6 @@ install_packages() {
 
     sudo apt update
     echo ${packages[*]} | xargs sudo apt install --assume-yes
-    unset packages;
 }
 
 install_oh_my_zsh() {
@@ -38,21 +37,13 @@ install_oh_my_zsh() {
 
 install_powerline_symbols() {
     echo "install powerline symbols"
-    local POWERLINE_URL="https://github.com/powerline/powerline/raw/develop/font"
-    local POWERLINE_SYMBOLS_FILE="PowerlineSymbols.otf"
-    local POWERLINE_SYMBOLS_CONF="10-powerline-symbols.conf"
+    local FONT_DIR="~/.local/share/fonts"
+    local URL="https://github.com/powerline/powerline/raw/develop/font"
 
-    if [[ ! -e ~/.fonts/$POWERLINE_SYMBOLS_FILE ]]; then
-        curl -fsSL $POWERLINE_URL/$POWERLINE_SYMBOLS_FILE -o /tmp/$POWERLINE_SYMBOLS_FILE
-        mkdir ~/.fonts 2> /dev/null
-        mv /tmp/$POWERLINE_SYMBOLS_FILE ~/.fonts/$POWERLINE_SYMBOLS_FILE
-        fc-cache -vf ~/.fonts/
-    fi
-
-    if [[ ! -e ~/.config/fontconfig/conf.d/$POWERLINE_SYMBOLS_CONF ]]; then
-        curl -fsSL $POWERLINE_URL/$POWERLINE_SYMBOLS_CONF -o /tmp/$POWERLINE_SYMBOLS_CONF
-        mkdir -p ~/.config/fontconfig/conf.d 2> /dev/null
-        mv /tmp/$POWERLINE_SYMBOLS_CONF ~/.config/fontconfig/conf.d/$POWERLINE_SYMBOLS_CONF
+    if [[ ! -e "${FONT_DIR}/PowerlineSymbols.otf" ]]; then
+        curl -fLo ${FONT_DIR}/PowerlineSymbols.otf ${URL}/PowerlineSymbols.otf --create-dirs
+        fc-cache -vf ${FONT_DIR}
+        curl -fLo ~/.config/fontconfig/conf.d/10-powerline-symbols.conf ${URL}/10-powerline-symbols.conf --create-dirs
     fi
 }
 

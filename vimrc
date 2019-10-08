@@ -63,9 +63,8 @@
         function! s:InstallVimPlugOnce()
             if empty(glob("~/.vim/autoload/plug.vim"))
                 echo "Installing plug.vim..\n"
-                silent execute "!mkdir -p ~/.vim/autoload"
                 silent execute "!mkdir -p ~/.vim/plugged"
-                silent execute "!curl -fLo ~/.vim/autoload/plug.vim https://raw.github.com/junegunn/vim-plug/master/plug.vim"
+                silent execute "!curl -fLo ~/.vim/autoload/plug.vim https://raw.github.com/junegunn/vim-plug/master/plug.vim --create-dirs"
             endif
         endfunction
     " }
@@ -73,16 +72,13 @@
     " InstallPowerlineSymbolsOnce {
         function! s:InstallPowerlineSymbolsOnce()
             let l:font_dir = "~/.local/share/fonts/"
+            let l:url = "https://github.com/powerline/powerline/raw/develop/font/"
+
             if empty(glob(l:font_dir . "PowerlineSymbols.otf"))
                 echo "Installing powerline symbols..\n"
-
-                silent execute "!mkdir -p     " . l:font_dir
-                silent execute "!curl -fLo    " . l:font_dir . "PowerlineSymbols.otf https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf"
+                silent execute "!curl -fLo    " . l:font_dir . "PowerlineSymbols.otf " . l:url . "PowerlineSymbols.otf --create-dirs"
                 silent execute "!fc-cache -vf " . l:font_dir
-
-                let l:fontconfig_dir = "~/.config/fontconfig/conf.d/"
-                silent execute "!mkdir -p  " . l:fontconfig_dir
-                silent execute "!curl -fLo " . l:fontconfig_dir . "10-powerline-symbols.conf https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf"
+                silent execute "!curl -fLo ~/.config/fontconfig/conf.d/10-powerline-symbols.conf " . l:url . "10-powerline-symbols.conf --create-dirs"
             endif
         endfunction
     " }
