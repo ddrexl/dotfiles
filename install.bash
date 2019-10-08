@@ -78,20 +78,18 @@ install_solarized_color_scheme() {
 configure_vim() {
     echo configure vim
 
-    cd "$(dirname "${BASH_SOURCE}")";
-    cp .vimrc ~
-    cp .ycm_extra_conf.py ~
-    cp -r .vimcache ~
+    ln -sv ${DOTDIR}/vimrc ~/.vimrc
+    ln -sv ${DOTDIR}/ycm_extra_conf.py ~/.ycm_extra_conf.py
 
     # never overwrite existing .vimrc.local
     if [ ! -f ~/.vimrc.local ]; then
-        cp .vimrc.local ~
+        cp ${DOTDIR}/vimrc.local ~/.vimrc.local
     fi
 
-    # install vim plugins
+    echo install vim plugins
     vim "+PlugInstall" "+qa"
 
-    # compile youcompleteme
+    echo compile youcompleteme
     cd ~/.vim/plugged/youcompleteme || exit 1
     ./install.py --clang-completer
 }
