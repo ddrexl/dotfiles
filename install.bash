@@ -105,12 +105,10 @@ configure_git() {
     fi
 }
 
-# TODO
 configure_zsh() {
     echo configure zsh
 
-    cd "$(dirname "${BASH_SOURCE}")";
-    cp .zshrc ~
+    ln -sv ${DOTDIR}/zshrc ~/.zshrc
 }
 
 IFS=', '
