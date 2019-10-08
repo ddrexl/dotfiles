@@ -14,7 +14,6 @@ install_packages() {
     build-essential
     clang-format
     curl
-    dconf-cli
     exuberant-ctags
     git
     python3-dev
@@ -31,12 +30,12 @@ install_packages() {
 }
 
 install_oh_my_zsh() {
-    echo "install oh my zsh"
+    echo install oh my zsh
     sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 }
 
 install_powerline_symbols() {
-    echo "install powerline symbols"
+    echo install powerline symbols
     local FONT_DIR="~/.local/share/fonts"
     local URL="https://github.com/powerline/powerline/raw/develop/font"
 
@@ -48,15 +47,15 @@ install_powerline_symbols() {
 }
 
 install_solarized_color_scheme() {
-    echo "install solarized color scheme"
+    echo install solarized color scheme
     local DIR="/tmp/solarized$$"
 
     if ! exists dconf; then
         echo "Package dconf-cli required for solarized colors!"
+        sudo apt install dconf-cli
         return -1
     fi
 
-    echo Install solarized color scheme
     git clone https://github.com/sigurdga/gnome-terminal-colors-solarized $DIR
     $DIR/install.sh
     rm -rf $DIR
@@ -81,6 +80,7 @@ configure_vim() {
     ./install.py --clang-completer
 }
 
+# TODO
 configure_tmux() {
     echo configure tmux
 
@@ -107,6 +107,7 @@ configure_git() {
     fi
 }
 
+# TODO
 configure_zsh() {
     echo configure zsh
 
