@@ -80,12 +80,10 @@ configure_vim() {
     ./install.py --clang-completer
 }
 
-# TODO
 configure_tmux() {
     echo configure tmux
 
-    cd "$(dirname "${BASH_SOURCE}")";
-    cp .tmux.conf ~
+    ln -sv ${DOTDIR}/tmux.conf ~/.tmux.conf
 }
 
 configure_git() {
