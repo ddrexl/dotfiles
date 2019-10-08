@@ -13,16 +13,12 @@ install_packages() {
     packages=(
     build-essential
     clang-format
-    cmake
     curl
     dconf-cli
     exuberant-ctags
     git
-    python-dev
     python3-dev
     rsync
-    silversearcher-ag
-    tmux
     tmux
     tree
     vim
