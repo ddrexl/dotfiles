@@ -93,3 +93,6 @@ alias tt='tmux attach -t 0-1 || tmux new -t 0'
 
 # direnv
 eval "$(direnv hook zsh)"
+
+# source local zsh
+[ -f ~/.zshrc.local ] && source ~/.zshrc.local
