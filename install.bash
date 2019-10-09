@@ -107,7 +107,8 @@ configure_git() {
 
 configure_zsh() {
     echo configure zsh
-
+    echo download prompt
+    git clone https://github.com/sindresorhus/pure.git ~/.zsh/pure
     ln -sv ${DOTDIR}/zshrc ~/.zshrc
 }
 

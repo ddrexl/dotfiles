@@ -1,98 +1,84 @@
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
-fpath+=~/.zfunc
-compinit
-
-# Path to your oh-my-zsh installation.
-export ZSH=~/.oh-my-zsh
-
-# Set name of the theme to load. Optionally, if you set this to "random"
-# it'll load a random theme each time that oh-my-zsh is loaded.
-# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="bira"
-
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
-
-# Uncomment the following line to use hyphen-insensitive completion. Case
-# sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
-
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-HIST_STAMPS="yyyy-mm-dd"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(vi-mode docker)
-
-source $ZSH/oh-my-zsh.sh
-
-# User configuration
-
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
 export LANG=en_US.UTF-8
 export EDITOR='vim'
 
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# ssh
-# export SSH_KEY_PATH="~/.ssh/rsa_id"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-#
-eval `dircolors ~/.dir_colors/dircolors`
-
+# aliases
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+alias ......='cd ../../../../..'
+alias 1='cd -'
+alias 2='cd -2'
+alias 3='cd -3'
+alias 4='cd -4'
+alias 5='cd -5'
+alias 6='cd -6'
+alias 7='cd -7'
+alias 8='cd -8'
+alias 9='cd -9'
+alias grep='grep  --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
+alias l='ls -lah'
+alias la='ls -lAh'
+alias ll='ls -lh'
+alias ls='ls --color=tty'
+alias lsa='ls -lah'
+alias md='mkdir -p'
 alias t='tmux attach -t 0 || tmux new'
 alias tt='tmux attach -t 0-1 || tmux new -t 0'
+alias which-command=whence
 
-# history search
- bindkey "^[OA" history-beginning-search-backward
- bindkey "^[OB" history-beginning-search-forward
- bindkey "^P" history-beginning-search-backward
- bindkey "^N" history-beginning-search-forward
+# vi mode
+bindkey -v
+zle -N edit-command-line
+autoload -Uz edit-command-line
+bindkey -M vicmd 'V' edit-command-line
+bindkey "^R" history-incremental-search-backward
+bindkey "^N" history-beginning-search-forward
+bindkey "^P" history-beginning-search-backward
+bindkey "^[OA" history-beginning-search-backward
+bindkey "^[OB" history-beginning-search-forward
+bindkey "^[OC" vi-forward-char
+bindkey "^[OD" vi-backward-char
+bindkey "^[OF" vi-end-of-line
+bindkey "^[OH" vi-beginning-of-line
+bindkey "^[[200~" bracketed-paste
+bindkey "^[[2~" overwrite-mode
+bindkey "^[[3~" vi-delete-char
+
+# completion
+fpath+=~/.zfunc
+autoload -U compinit; compinit
+
+# prompt
+fpath+=~/.zsh/pure
+autoload -U promptinit; promptinit
+zstyle :prompt:pure:user color 'green'
+zstyle :prompt:pure:host color 'green'
+zstyle :prompt:pure:user:root color 'red'
+zstyle :prompt:pure:prompt:success color 'blue'
+zstyle :prompt:pure:git:branch color '172' # orange
+zstyle :prompt:pure:virtualenv color 'cyan'
+prompt pure
+
+# history
+[ -z "$HISTFILE" ] && HISTFILE="$HOME/.zsh_history"
+HISTSIZE=10000
+SAVEHIST=10000
+setopt extended_history       # record timestamp of command in HISTFILE
+setopt hist_expire_dups_first # delete duplicates first when HISTFILE size exceeds HISTSIZE
+setopt hist_ignore_dups       # ignore duplicated commands history list
+setopt hist_ignore_space      # ignore commands that start with space
+setopt hist_verify            # show command with history expansion to user before running it
+setopt inc_append_history     # add commands to HISTFILE in order of execution
+setopt share_history          # share command history data
+
+# colors
+eval `dircolors ~/.dir_colors/dircolors`
 
 # direnv
 eval "$(direnv hook zsh)"
 
 # source local zsh
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
+
+# vim:set et sw=4 ts=4 fdm=expr fde=getline(v\:lnum)=~'^#'?'>1'\:'=' fdl=0 :
