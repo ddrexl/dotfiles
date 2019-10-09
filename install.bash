@@ -109,6 +109,8 @@ configure_zsh() {
     echo configure zsh
     echo download prompt
     git clone https://github.com/sindresorhus/pure.git ~/.zsh/pure
+    echo download colors
+    curl -fLo ~/.zsh/dircolors/dircolors.ansi-dark https://raw.githubusercontent.com/seebi/dircolors-solarized/master/dircolors.ansi-dark --create-dirs
     ln -sv ${DOTDIR}/zshrc ~/.zshrc
 }
 

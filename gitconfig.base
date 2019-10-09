@@ -32,25 +32,6 @@
     prune = true
 [include]
     path = ~/.gitconfig.local
-; [color "branch"]
-;     current = green reverse
-;     local = green
-;     remote = red
-; [color "diff"]
-;     meta = white bold
-;     frag = blue bold # line info
-;     old = red # deletions
-;     new = green # additions
-; [color "status"]
-;     added = green
-;     changed = red
-;     untracked = cyan
-; [color "decorate"]
-;     HEAD = cyan
-;     branch = green
-;     remoteBranch = red
-;     stash = magenta
-;     tag = yellow reverse
 [diff]
     indentHeuristic = true
     compactionHeuristic = true

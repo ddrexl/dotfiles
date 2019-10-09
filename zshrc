@@ -73,7 +73,7 @@ setopt inc_append_history     # add commands to HISTFILE in order of execution
 setopt share_history          # share command history data
 
 # colors
-eval `dircolors ~/.dir_colors/dircolors`
+eval `dircolors ~/.zsh/dircolors/dircolors.ansi-dark`
 
 # direnv
 eval "$(direnv hook zsh)"
