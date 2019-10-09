@@ -78,6 +78,9 @@ eval `dircolors ~/.zsh/dircolors/dircolors.ansi-dark`
 # direnv
 eval "$(direnv hook zsh)"
 
+# auto cd
+setopt auto_cd
+
 # source local zsh
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 
