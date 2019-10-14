@@ -44,10 +44,13 @@ bindkey "^[OH" vi-beginning-of-line
 bindkey "^[[200~" bracketed-paste
 bindkey "^[[2~" overwrite-mode
 bindkey "^[[3~" vi-delete-char
+bindkey "^?" backward-delete-char
 
 # completion
-fpath+=~/.zfunc
+fpath+=~/.zsh/completions
 autoload -U compinit; compinit
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/.zsh/cache
 
 # prompt
 fpath+=~/.zsh/pure
@@ -80,6 +83,10 @@ eval "$(direnv hook zsh)"
 
 # auto cd
 setopt auto_cd
+
+# caps as additional escape
+# to work at startup, put it in ~/.profile
+setxkbmap -option caps:escape
 
 # source local zsh
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
