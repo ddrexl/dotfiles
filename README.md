@@ -100,11 +100,11 @@ I try to avoid conflicts with vanilla vim as much as possible.
 | testf  | gtest TEST_F
 | tests  | gtest suite
 
-bazel | |
--     | -
-ccb   | cc_binary
-ccl   | cc_library
-cct   | cc_test
+| bazel | |
+| -     | -
+| ccb   | cc_binary
+| ccl   | cc_library
+| cct   | cc_test
 
 
 ## Feedback
