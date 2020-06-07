@@ -102,7 +102,7 @@
         Plug 'majutsushi/tagbar'                " Tags in sidebar
         Plug 'michaeljsmith/vim-indent-object'  " Indent object
         Plug 'rhysd/vim-clang-format', { 'for': 'cpp' }         " c++ formatting
-        Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }  " File browser sidebar
+        Plug 'scrooloose/nerdtree'              " File browser sidebar
         Plug 'sirver/ultisnips' | Plug 'honza/vim-snippets'     " Code snippets
         Plug 'tpope/vim-abolish'                " Search, substitute and coerce declinations
         Plug 'tpope/vim-commentary'             " Code commenting
