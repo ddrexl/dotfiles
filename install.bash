@@ -11,22 +11,26 @@ install_packages() {
     echo install some basic command line utilities using apt
 
     local packages=(
-    build-essential
-    clang-format
-    curl
-    exuberant-ctags
-    git
-    python3-dev
-    rsync
-    tmux
-    tree
-    vim
-    xsel
-    zsh
+        build-essential
+        clang-format
+        clangd-9
+        curl
+        exuberant-ctags
+        git
+        python3-dev
+        rsync
+        tmux
+        tree
+        vim
+        xsel
+        zsh
     )
 
     sudo apt update
     echo ${packages[*]} | xargs sudo apt install --assume-yes
+
+    echo make clangd-9 the default clangd
+    sudo update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-9 100
 }
 
 install_oh_my_zsh() {
@@ -47,7 +51,7 @@ install_powerline_symbols() {
 }
 
 install_solarized_color_scheme() {
-    echo install solarized color scheme
+    echo install solarized color scheme for gnome terminal
     local DIR="/tmp/solarized$$"
 
     if ! exists dconf; then
@@ -65,7 +69,6 @@ configure_vim() {
     echo configure vim
 
     ln -sv ${DOTDIR}/vimrc ~/.vimrc
-    ln -sv ${DOTDIR}/ycm_extra_conf.py ~/.ycm_extra_conf.py
 
     # never overwrite existing .vimrc.local
     if [ ! -f ~/.vimrc.local ]; then
@@ -74,10 +77,6 @@ configure_vim() {
 
     echo install vim plugins
     vim "+PlugInstall" "+qa"
-
-    echo compile youcompleteme
-    cd ~/.vim/plugged/youcompleteme || exit 1
-    ./install.py --clang-completer
 }
 
 configure_tmux() {

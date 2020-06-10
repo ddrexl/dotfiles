@@ -109,12 +109,13 @@
         Plug 'tpope/vim-repeat'                 " Repeatable tpope commands
         Plug 'tpope/vim-surround'               " Parenthesis commands
         Plug 'tpope/vim-unimpaired'             " Pairs of handy bracket mappings
-        Plug 'valloric/youcompleteme'           " Code completion engine!!
+        Plug 'valloric/youcompleteme', {'do': 'python3 install.py --clangd-completer'} " Code completion engine!!
         Plug 'vim-airline/vim-airline'          " Statusline
         Plug 'vim-airline/vim-airline-themes'   " Solarized theme for airline
         Plug 'vim-scripts/argtextobj.vim'       " Argument object
         Plug 'vim-scripts/matchit.zip'          " Improve % operation
         Plug 'vimwiki/vimwiki'                  " Notes and todo lists in vim
+        Plug 'grailbio/bazel-compilation-database'
         Plug 'google/vim-codefmt' | Plug 'google/vim-maktaba' | Plug 'google/vim-glaive'
 
         call plug#end()
@@ -307,8 +308,8 @@
     noremap k gk
 
     " tab movement
-    noremap <S-H> gT
-    noremap <S-L> gt
+    noremap <S-H> :tabprevious<CR>
+    noremap <S-L> :tabnext<CR>
 
     " Yank from the cursor to the end of the line, to be consistent with C and D.
     nnoremap Y y$
@@ -462,8 +463,16 @@
         if isdirectory(expand("~/.vim/plugged/youcompleteme/"))
             "let g:acp_enableAtStartup = 0
 
-            " self explanatory af
-            let g:ycm_collect_identifiers_from_tags_files = 1
+            " Let clangd fully control code completion
+            let g:ycm_clangd_uses_ycmd_caching = 0
+            let g:ycm_use_clangd = 1
+            " Use installed clangd, not YCM-bundled clangd which doesn't get updates.
+            " let g:ycm_clangd_binary_path = exepath("clangd")
+            " let g:ycm_clangd_args = ['-log=verbose', '-pretty']
+
+            " tag file based
+            " let g:ycm_collect_identifiers_from_tags_files = 1
+
             let g:ycm_autoclose_preview_window_after_completion = 1
 
             " remap Ultisnips for compatibility for YCM
@@ -487,13 +496,17 @@
             let g:ycm_python_binary_path = '/usr/bin/python3'
 
             " c lang family completion
-            let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
             let g:ycm_confirm_extra_conf = 1
 
             " YcmCompleter subcommand mappings
-            noremap <leader>.g :YcmCompleter GoTo<CR>
+            noremap <silent> gd :YcmCompleter GoTo<CR>
+            noremap <silent> gt :YcmCompleter GetType<CR>
+            noremap <silent> gr :YcmCompleter GoToReferences<CR>
+            " noremap <leader>.k :YcmCompleter GetDoc<CR>
             noremap <leader>.f :YcmCompleter FixIt<CR>
-            noremap <leader>.r :YcmCompleter GoToReferences<CR>
+            noremap <leader>.q :YcmCompleter Format<CR>
+            noremap <leader>m  :YcmCompleter RefactorRename 
+
         endif
     " }
 
@@ -508,6 +521,13 @@
             let g:airline_theme = 'solarized'
             let g:airline_powerline_fonts = 1
         endif
+
+        if isdirectory(expand("~/.vim/plugged/vim-airline-themes/"))
+            let g:airline#extensions#ycm#enabled = 1
+            let g:airline#extensions#ycm#error_symbol = 'E:'
+            let g:airline#extensions#ycm#warning_symbol = 'W:'
+        endif
+
     " }
 
     " Clang Format {
