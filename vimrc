@@ -101,7 +101,6 @@
         Plug 'godlygeek/tabular'                " Text alignment
         Plug 'majutsushi/tagbar'                " Tags in sidebar
         Plug 'michaeljsmith/vim-indent-object'  " Indent object
-        Plug 'rhysd/vim-clang-format', { 'for': 'cpp' }         " c++ formatting
         Plug 'scrooloose/nerdtree'              " File browser sidebar
         Plug 'sirver/ultisnips' | Plug 'honza/vim-snippets'     " Code snippets
         Plug 'tpope/vim-abolish'                " Search, substitute and coerce declinations
@@ -116,8 +115,11 @@
         Plug 'vim-scripts/argtextobj.vim'       " Argument object
         Plug 'vim-scripts/matchit.zip'          " Improve % operation
         Plug 'vimwiki/vimwiki'                  " Notes and todo lists in vim
+        Plug 'google/vim-codefmt' | Plug 'google/vim-maktaba' | Plug 'google/vim-glaive'
 
         call plug#end()
+
+        call glaive#Install()
     endif
 " }
 
@@ -358,19 +360,16 @@
 
     " NerdTree {
         if isdirectory(expand("~/.vim/plugged/nerdtree"))
-            nmap <C-n> :NERDTreeToggle<CR>
+            nnoremap <silent> <C-n> :NERDTreeToggle<CR>
             nmap <leader>n :NERDTreeFind<CR>
 
-            let g:NERDShutUp=1
             let NERDTreeShowBookmarks=1
             let NERDTreeIgnore=['\.py[cd]$', '\~$', '\.swo$', '\.swp$', '^\.git$', '^\.hg$', '^\.svn$', '\.bzr$']
             let NERDTreeChDirMode=0
             let NERDTreeQuitOnOpen=1
             let NERDTreeMouseMode=2
             let NERDTreeShowHidden=1
-            let NERDTreeKeepTreeInNewTab=1
             let g:NERDTreeWinSize=60
-            let g:nerdtree_tabs_open_on_gui_startup=0
         endif
     " }
 
@@ -534,6 +533,20 @@
         if isdirectory(expand("~/.vim/plugged/vimwiki/"))
             let g:vimwiki_listsyms = ' .oO✓'
             let g:vimwiki_folding = 'expr'
+        endif
+    " }
+
+    " Codeformat {
+        if isdirectory(expand("~/.vim/plugged/vim-codefmt/"))
+            augroup autoformat_settings
+              autocmd FileType bzl AutoFormatBuffer buildifier
+              autocmd FileType c,cpp,proto,javascript,arduino AutoFormatBuffer clang-format
+              autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
+              autocmd FileType python AutoFormatBuffer black
+              autocmd FileType rust AutoFormatBuffer rustfmt
+            augroup END
+
+            Glaive codefmt clang_format_executable="clang-format-6.0"
         endif
     " }
 " }
