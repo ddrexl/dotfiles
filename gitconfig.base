@@ -5,6 +5,7 @@
 [color]
     ui = auto
 [alias]
+    aliases = config --get-regexp alias
     br = branch
     ca = commit --amend
     ce = commit --amend --no-edit
@@ -14,8 +15,14 @@
     cp = cherry-pick
     df = diff
     ds = diff --staged
-    l = log --branches --remotes --tags --graph --oneline --decorate
+    l = log --branches --tags --graph --oneline --decorate -10
+    rb = rebase
+    rba = rebase --abort
+    rbc = rebase --continue
+    rbi = rebase --interactive
     rh = reset --hard
+    s = stash
+    sp = stash pop
     st = status
     who = log --pretty=format:'%w(120, 0, 38)%C(yellow)%h%Creset %C(green)%<(15,trunc)%an%Creset %C(cyan)%<(12,trunc)%cr%Creset %C(red)%d%Creset %s'  --all
 
@@ -25,13 +32,11 @@
     remotes = remote -v
 
     # delete fully merged branches
-    dm = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
+    brd = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
 [core]
     excludesfile = ~/.gitignore
 [fetch]
     prune = true
-[include]
-    path = ~/.gitconfig.local
 [diff]
     indentHeuristic = true
     compactionHeuristic = true
