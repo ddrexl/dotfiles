@@ -441,16 +441,15 @@
 
     " Fugitive {
         if isdirectory(expand("~/.vim/plugged/vim-fugitive/"))
-            nnoremap <silent> <leader>gs :Gstatus<CR>
-            nnoremap <silent> <leader>gd :Gvdiff<CR>
-            nnoremap <silent> <leader>gc :Gcommit<CR>
-            nnoremap <silent> <leader>gb :Gblame<CR>
-            nnoremap <silent> <leader>gl :Glog<CR>
+            nnoremap <silent> <leader>gs :Git<CR>
+            nnoremap <silent> <leader>gd :Gvdiffsplit<CR>
+            nnoremap <silent> <leader>gc :Git commit<CR>
+            nnoremap <silent> <leader>gb :Git blame<CR>
+            nnoremap <silent> <leader>gl :Gclog -10<CR>
             "nnoremap <silent> <leader>gp :Git push<CR>
             nnoremap <silent> <leader>gr :Gread<CR>
             nnoremap <silent> <leader>gw :Gwrite<CR>
             nnoremap <silent> <leader>ge :Gedit<CR>
-            "nnoremap <silent> <leader>gg :SignifyToggle<CR> todo
 
             augroup fugitive_buffers
                 autocmd!
