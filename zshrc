@@ -96,4 +96,8 @@ setxkbmap -option caps:escape
 
 # disable scroll lock
 stty -ixon
+
+path+=~/.local/bin
+export PATH
+
 # vim:set et sw=4 ts=4 fdm=expr fde=getline(v\:lnum)=~'^#'?'>1'\:'=' fdl=0 :
