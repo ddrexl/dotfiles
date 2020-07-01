@@ -99,24 +99,23 @@
         Plug 'ctrlpvim/ctrlp.vim'               " Fuzzy file opener
         Plug 'easymotion/vim-easymotion'        " Speed of light motion
         Plug 'godlygeek/tabular'                " Text alignment
+        Plug 'google/vim-codefmt' | Plug 'google/vim-maktaba' | Plug 'google/vim-glaive' " Auto formatting
         Plug 'majutsushi/tagbar'                " Tags in sidebar
         Plug 'michaeljsmith/vim-indent-object'  " Indent object
         Plug 'scrooloose/nerdtree'              " File browser sidebar
-        Plug 'sirver/ultisnips' | Plug 'honza/vim-snippets'     " Code snippets
+        Plug 'sirver/ultisnips' | Plug 'honza/vim-snippets' " Code snippets
         Plug 'tpope/vim-abolish'                " Search, substitute and coerce declinations
         Plug 'tpope/vim-commentary'             " Code commenting
         Plug 'tpope/vim-fugitive'               " Git in Vim!!
         Plug 'tpope/vim-repeat'                 " Repeatable tpope commands
         Plug 'tpope/vim-surround'               " Parenthesis commands
         Plug 'tpope/vim-unimpaired'             " Pairs of handy bracket mappings
-        Plug 'valloric/youcompleteme', {'do': 'python3 install.py --clangd-completer'} " Code completion engine!!
+        Plug 'valloric/youcompleteme', {'do': 'python3 install.py --clangd-completer'} | Plug 'grailbio/bazel-compilation-database' " Code completion engine!!
         Plug 'vim-airline/vim-airline'          " Statusline
         Plug 'vim-airline/vim-airline-themes'   " Solarized theme for airline
-        Plug 'vim-scripts/argtextobj.vim'       " Argument object
         Plug 'vim-scripts/matchit.zip'          " Improve % operation
         Plug 'vimwiki/vimwiki'                  " Notes and todo lists in vim
-        Plug 'grailbio/bazel-compilation-database'
-        Plug 'google/vim-codefmt' | Plug 'google/vim-maktaba' | Plug 'google/vim-glaive'
+        Plug 'wellle/targets.vim'               " Various text objects
 
         call plug#end()
 
