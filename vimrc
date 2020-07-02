@@ -113,7 +113,7 @@
         Plug 'valloric/youcompleteme', {'do': 'python3 install.py --clangd-completer'} | Plug 'grailbio/bazel-compilation-database' " Code completion engine!!
         Plug 'vim-airline/vim-airline'          " Statusline
         Plug 'vim-airline/vim-airline-themes'   " Solarized theme for airline
-        Plug 'vim-scripts/matchit.zip'          " Improve % operation
+        Plug 'andymass/vim-matchup'             " Improve % operation
         Plug 'vimwiki/vimwiki'                  " Notes and todo lists in vim
         Plug 'wellle/targets.vim'               " Various text objects
 
