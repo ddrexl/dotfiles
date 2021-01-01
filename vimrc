@@ -529,18 +529,6 @@
 
     " }
 
-    " Clang Format {
-        if isdirectory(expand("~/.vim/plugged/vim-clang-format/"))
-            let g:clang_format#detect_style_file = 1
-            let g:clang_format#command = "clang-format-6.0"
-
-            augroup clang_format
-                autocmd!
-                autocmd FileType cpp let g:clang_format#auto_format = 1
-            augroup END
-        endif
-    " }
-
     " UltiSnips {
         if isdirectory(expand("~/.vim/plugged/ultisnips/"))
             let g:snips_author = 'Dominik Drexl'
