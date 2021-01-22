@@ -457,18 +457,22 @@
             augroup END
 
             " this matches the <leader>gl mapping above
+            function s:git_log_syntax()
+                syn match gitLgLine     /^[_\*|\/\\ ]\+\(\<\x\{4,40\}\>.*\)\?$/
+                syn match gitLgGraph    /^[_\*|\/\\ ]\+/ contained containedin=gitLgLine nextgroup=gitHashAbbrev skipwhite
+                syn match gitLgDate     /\[.*\]/ contained containedin=gitLgLine
+                syn match gitLgRefs     /(.*)/ contained containedin=gitLgLine
+                syn match gitLgCommit   /^[^-]\+- / contained containedin=gitLgLine nextgroup=gitLgIdentity skipwhite
+                syn match gitLgIdentity /<.*>/ contained containedin=gitLgLine
+                hi def link gitLgGraph    Comment
+                hi def link gitLgDate     gitDate
+                hi def link gitLgRefs     gitReference
+                hi def link gitLgIdentity gitIdentity
+            endfunction
+
             augroup git_log_syntax
                 autocmd!
-                autocmd Syntax git syn match gitLgLine     /^[_\*|\/\\ ]\+\(\<\x\{4,40\}\>.*\)\?$/
-                autocmd Syntax git syn match gitLgGraph    /^[_\*|\/\\ ]\+/ contained containedin=gitLgLine nextgroup=gitHashAbbrev skipwhite
-                autocmd Syntax git syn match gitLgDate     /\[.*\]/ contained containedin=gitLgLine
-                autocmd Syntax git syn match gitLgRefs     /(.*)/ contained containedin=gitLgLine
-                autocmd Syntax git syn match gitLgCommit   /^[^-]\+- / contained containedin=gitLgLine nextgroup=gitLgIdentity skipwhite
-                autocmd Syntax git syn match gitLgIdentity /<.*>/ contained containedin=gitLgLine
-                autocmd Syntax git hi def link gitLgGraph    Comment
-                autocmd Syntax git hi def link gitLgDate     gitDate
-                autocmd Syntax git hi def link gitLgRefs     gitReference
-                autocmd Syntax git hi def link gitLgIdentity gitIdentity
+                autocmd Syntax git call s:git_log_syntax()
             augroup end
 
         endif
