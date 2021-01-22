@@ -51,6 +51,7 @@ bindkey "" backward-delete-char
 # completion
 zstyle ':completion:*' menu select
 fpath+=~/.zsh/completions
+fpath+=~/.zfunc
 autoload -U compinit; compinit
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path ~/.zsh/cache
@@ -98,6 +99,7 @@ setxkbmap -option caps:escape
 stty -ixon
 
 path+=~/.local/bin
+path+=~/bin
 export PATH
 
 # vim:set et sw=4 ts=4 fdm=expr fde=getline(v\:lnum)=~'^#'?'>1'\:'=' fdl=0 :
