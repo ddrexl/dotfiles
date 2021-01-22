@@ -445,7 +445,7 @@
             nnoremap <silent> <leader>gd :Gvdiffsplit<CR>
             nnoremap <silent> <leader>gc :Git commit<CR>
             nnoremap <silent> <leader>gb :Git blame<CR>
-            nnoremap <silent> <leader>gl :Gclog -10<CR>
+            nnoremap <silent> <leader>gl :Git --paginate log --graph --pretty=format:'%h %d %s <%an> [%ad]' --abbrev-commit --date=relative -30<CR>
             "nnoremap <silent> <leader>gp :Git push<CR>
             nnoremap <silent> <leader>gr :Gread<CR>
             nnoremap <silent> <leader>gw :Gwrite<CR>
@@ -455,6 +455,22 @@
                 autocmd!
                 autocmd BufReadPost fugitive://* set bufhidden=delete
             augroup END
+
+            " this matches the <leader>gl mapping above
+            augroup git_log_syntax
+                autocmd!
+                autocmd Syntax git syn match gitLgLine     /^[_\*|\/\\ ]\+\(\<\x\{4,40\}\>.*\)\?$/
+                autocmd Syntax git syn match gitLgGraph    /^[_\*|\/\\ ]\+/ contained containedin=gitLgLine nextgroup=gitHashAbbrev skipwhite
+                autocmd Syntax git syn match gitLgDate     /\[.*\]/ contained containedin=gitLgLine
+                autocmd Syntax git syn match gitLgRefs     /(.*)/ contained containedin=gitLgLine
+                autocmd Syntax git syn match gitLgCommit   /^[^-]\+- / contained containedin=gitLgLine nextgroup=gitLgIdentity skipwhite
+                autocmd Syntax git syn match gitLgIdentity /<.*>/ contained containedin=gitLgLine
+                autocmd Syntax git hi def link gitLgGraph    Comment
+                autocmd Syntax git hi def link gitLgDate     gitDate
+                autocmd Syntax git hi def link gitLgRefs     gitReference
+                autocmd Syntax git hi def link gitLgIdentity gitIdentity
+            augroup end
+
         endif
     "}
 
