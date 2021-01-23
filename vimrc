@@ -110,7 +110,8 @@
         Plug 'tpope/vim-repeat'                 " Repeatable tpope commands
         Plug 'tpope/vim-surround'               " Parenthesis commands
         Plug 'tpope/vim-unimpaired'             " Pairs of handy bracket mappings
-        Plug 'valloric/youcompleteme', {'do': 'python3 install.py --clangd-completer'} | Plug 'grailbio/bazel-compilation-database' " Code completion engine!!
+        Plug 'prabirshrestha/vim-lsp' | Plug 'mattn/vim-lsp-settings'                       " Language server
+        Plug 'prabirshrestha/asyncomplete.vim' | Plug 'prabirshrestha/asyncomplete-lsp.vim' " Auto-completion
         Plug 'vim-airline/vim-airline'          " Statusline
         Plug 'vim-airline/vim-airline-themes'   " Solarized theme for airline
         Plug 'andymass/vim-matchup'             " Improve % operation
@@ -478,54 +479,72 @@
         endif
     "}
 
-    " YouCompleteMe {
-        if isdirectory(expand("~/.vim/plugged/youcompleteme/"))
-            "let g:acp_enableAtStartup = 0
+    " Vim LSP {
+        if isdirectory(expand("~/.vim/plugged/vim-lsp/"))
+            let g:lsp_diagnostics_enabled = 1
+            let g:lsp_diagnostics_signs_enabled = 1
+            let g:lsp_diagnostics_echo_cursor = 0
+            let g:lsp_diagnostics_float_cursor = 1
+            let g:lsp_diagnostics_signs_error = {'text': '✗'}
+            let g:lsp_diagnostics_signs_warning = {'text': '‼'}
+            let g:lsp_diagnostics_signs_insert_mode_enabled = 0
+            let g:lsp_hover_conceal = 0 " disable in terminal
+            let g:lsp_semantic_enabled = 1
 
-            " Let clangd fully control code completion
-            let g:ycm_clangd_uses_ycmd_caching = 0
-            let g:ycm_use_clangd = 1
-            " Use installed clangd, not YCM-bundled clangd which doesn't get updates.
-            " let g:ycm_clangd_binary_path = exepath("clangd")
-            " let g:ycm_clangd_args = ['-log=verbose', '-pretty']
+            function! s:on_lsp_buffer_enabled() abort
+                setlocal omnifunc=lsp#complete
+                setlocal signcolumn=number
+                if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+                nmap <buffer> gd <Plug>(lsp-definition)
+                nmap <buffer> gs <Plug>(lsp-document-symbol-search)
+                nmap <buffer> gS <Plug>(lsp-workspace-symbol-search)
+                nmap <buffer> gr <Plug>(lsp-references)
+                nmap <buffer> gi <Plug>(lsp-implementation)
+                nmap <buffer> gt <Plug>(lsp-type-definition)
+                nmap <buffer> <leader>m <Plug>(lsp-rename)
+                nmap <silent> <buffer> [g <Plug>(lsp-previous-diagnostic)
+                nmap <silent> <buffer> ]g <Plug>(lsp-next-diagnostic)
+                nmap <buffer> K <Plug>(lsp-hover)
+                nmap <buffer> <leader>.f <Plug>(lsp-code-action)
+                nmap <buffer> <leader>.q <Plug>(lsp-document-format)
 
-            " tag file based
-            " let g:ycm_collect_identifiers_from_tags_files = 1
+                " autoformating currently done with vim-codefmt, see below
+                " let g:lsp_format_sync_timeout = 1000
+                " autocmd! BufWritePre *.rs,*.py call execute('LspDocumentFormatSync')
+            endfunction
 
-            let g:ycm_autoclose_preview_window_after_completion = 1
+            augroup lsp_install
+                au!
+                " call s:on_lsp_buffer_enabled only for languages that has the server registered.
+                autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+            augroup END
+        endif
+    " }
 
-            " remap Ultisnips for compatibility for YCM
-            let g:ycm_use_ultisnips_completer = 1
+    " Asyncomplete {
+        if isdirectory(expand("~/.vim/plugged/asyncomplete.vim/"))
+            inoremap <silent><expr> <TAB>
+              \ pumvisible() ? "\<C-n>" :
+              \ <SID>check_back_space() ? "\<TAB>" :
+              \ asyncomplete#force_refresh()
+            inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+            inoremap <expr> <CR>    pumvisible() ? asyncomplete#close_popup() : "\<CR>"
+
+            function! s:check_back_space() abort
+                let col = col('.') - 1
+                return !col || getline('.')[col - 1]  =~ '\s'
+            endfunction
+
+            " remap Ultisnips to not use tab
             let g:UltiSnipsExpandTrigger = '<C-j>'
             let g:UltiSnipsJumpForwardTrigger = '<C-j>'
             let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
 
-            let g:ycm_show_diagnostics_ui = 0
+            let g:asyncomplete_auto_popup = 1
 
-            " Enable omni completion.
-            augroup omni_complete
-                autocmd!
-                autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-                autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-                autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-                autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-            augroup END
-
-            " python semantic completion
-            let g:ycm_python_binary_path = '/usr/bin/python3'
-
-            " c lang family completion
-            let g:ycm_confirm_extra_conf = 1
-
-            " YcmCompleter subcommand mappings
-            noremap <silent> gd :YcmCompleter GoTo<CR>
-            noremap <silent> gt :YcmCompleter GetType<CR>
-            noremap <silent> gr :YcmCompleter GoToReferences<CR>
-            " noremap <leader>.k :YcmCompleter GetDoc<CR>
-            noremap <leader>.f :YcmCompleter FixIt<CR>
-            noremap <leader>.q :YcmCompleter Format<CR>
-            noremap <leader>m  :YcmCompleter RefactorRename 
-
+            " enable preview window
+            " let g:asyncomplete_auto_completeopt = 0
+            " set completeopt=menuone,noinsert,noselect,preview
         endif
     " }
 
