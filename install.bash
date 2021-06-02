@@ -11,19 +11,31 @@ install_packages() {
     echo install some basic command line utilities using apt
 
     local packages=(
-        build-essential
-        clang-format
-        clangd-9
         curl
-        exuberant-ctags
+        direnv
         git
-        python3-dev
+        ripgrep
         rsync
         tmux
         tree
         vim
         xsel
         zsh
+    )
+
+    sudo apt update
+    echo ${packages[*]} | xargs sudo apt install --assume-yes
+}
+
+install_dev_packages() {
+    echo install some packages for development using apt
+
+    local packages=(
+        build-essential
+        clang-format
+        clangd-9
+        exuberant-ctags
+        python3-dev
     )
 
     sudo apt update
