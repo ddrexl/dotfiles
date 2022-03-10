@@ -483,8 +483,8 @@
         if isdirectory(expand("~/.vim/plugged/vim-lsp/"))
             let g:lsp_diagnostics_enabled = 1
             let g:lsp_diagnostics_signs_enabled = 1
-            let g:lsp_diagnostics_echo_cursor = 0
-            let g:lsp_diagnostics_float_cursor = 1
+            let g:lsp_diagnostics_echo_cursor = 1
+            let g:lsp_diagnostics_float_cursor = 0
             let g:lsp_diagnostics_signs_error = {'text': '✗'}
             let g:lsp_diagnostics_signs_warning = {'text': '‼'}
             let g:lsp_diagnostics_signs_insert_mode_enabled = 0
