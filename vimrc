@@ -112,12 +112,13 @@
         Plug 'tpope/vim-unimpaired'             " Pairs of handy bracket mappings
         Plug 'prabirshrestha/vim-lsp' | Plug 'mattn/vim-lsp-settings'                       " Language server
         Plug 'prabirshrestha/asyncomplete.vim' | Plug 'prabirshrestha/asyncomplete-lsp.vim' " Auto-completion
-        Plug 'vim-airline/vim-airline'             " Statusline
-        Plug 'vim-airline/vim-airline-themes'      " Solarized theme for airline
-        Plug 'andymass/vim-matchup'                " Improve % operation
-        Plug 'vimwiki/vimwiki'                     " Notes and todo lists in vim
-        Plug 'wellle/targets.vim'                  " Various text objects
-        Plug 'tpope/vim-dispatch', {'for': 'rust'} " Async cargo commands for rust
+        Plug 'vim-airline/vim-airline'          " Statusline
+        Plug 'vim-airline/vim-airline-themes'   " Solarized theme for airline
+        Plug 'andymass/vim-matchup'             " Improve % operation
+        Plug 'vimwiki/vimwiki'                  " Notes and todo lists in vim
+        Plug 'wellle/targets.vim'               " Various text objects
+        Plug 'tpope/vim-dispatch', {'for': 'rust'}    " Async cargo commands for rust
+        Plug 'cespare/vim-toml', { 'branch': 'main' } " Included in Vim 8.2.3519
 
         call plug#end()
 
@@ -268,6 +269,14 @@
         autocmd!
         autocmd FileType c,cpp,python,xml,yml autocmd BufWritePre <buffer> call StripTrailingWhitespace()
         autocmd FileType markdown let b:noStripTrailingWhitespace=1
+    augroup END
+
+    " Cargo.toml
+    augroup cargo_toml_formatting
+        autocmd!
+        if executable('taplo')
+            autocmd BufRead,BufNewFile Cargo.toml autocmd BufWritePost <buffer> silent execute "!taplo lint -S Cargo.toml"
+        endif
     augroup END
 
     augroup special_tabs
