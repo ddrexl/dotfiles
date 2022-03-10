@@ -112,11 +112,12 @@
         Plug 'tpope/vim-unimpaired'             " Pairs of handy bracket mappings
         Plug 'prabirshrestha/vim-lsp' | Plug 'mattn/vim-lsp-settings'                       " Language server
         Plug 'prabirshrestha/asyncomplete.vim' | Plug 'prabirshrestha/asyncomplete-lsp.vim' " Auto-completion
-        Plug 'vim-airline/vim-airline'          " Statusline
-        Plug 'vim-airline/vim-airline-themes'   " Solarized theme for airline
-        Plug 'andymass/vim-matchup'             " Improve % operation
-        Plug 'vimwiki/vimwiki'                  " Notes and todo lists in vim
-        Plug 'wellle/targets.vim'               " Various text objects
+        Plug 'vim-airline/vim-airline'             " Statusline
+        Plug 'vim-airline/vim-airline-themes'      " Solarized theme for airline
+        Plug 'andymass/vim-matchup'                " Improve % operation
+        Plug 'vimwiki/vimwiki'                     " Notes and todo lists in vim
+        Plug 'wellle/targets.vim'                  " Various text objects
+        Plug 'tpope/vim-dispatch', {'for': 'rust'} " Async cargo commands for rust
 
         call plug#end()
 
@@ -592,6 +593,19 @@
             augroup END
 
             Glaive codefmt clang_format_executable="clang-format-6.0"
+        endif
+    " }
+
+    " Vim-Dispatch {
+        if isdirectory(expand("~/.vim/plugged/vim-dispatch/"))
+            augroup vim_dispatch_rust
+              autocmd BufRead,BufNewFile Cargo.toml,Cargo.lock,*.rs compiler cargo
+              autocmd BufRead,BufNewFile Cargo.toml,Cargo.lock,*.rs setlocal makeprg=cargo
+              autocmd FileType rust nnoremap <leader>cb :Dispatch cargo build<CR>
+              autocmd FileType rust nnoremap <leader>cc :Dispatch cargo check<CR>
+              autocmd FileType rust nnoremap <leader>cr :Dispatch cargo run<CR>
+              autocmd FileType rust nnoremap <leader>ct :Dispatch cargo test<CR>
+            augroup END
         endif
     " }
 " }
