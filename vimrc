@@ -612,8 +612,9 @@
               autocmd BufRead,BufNewFile Cargo.toml,Cargo.lock,*.rs setlocal makeprg=cargo
               autocmd FileType rust nnoremap <leader>cb :Dispatch cargo build<CR>
               autocmd FileType rust nnoremap <leader>cc :Dispatch cargo check<CR>
-              autocmd FileType rust nnoremap <leader>cr :Dispatch cargo run<CR>
+              autocmd FileType rust nnoremap <leader>cr :terminal cargo run<CR>
               autocmd FileType rust nnoremap <leader>ct :Dispatch cargo test<CR>
+              autocmd FileType rust nnoremap <leader>cd :Dispatch cargo doc --open<CR>
             augroup END
         endif
     " }
