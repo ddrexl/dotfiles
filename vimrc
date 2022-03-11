@@ -450,45 +450,6 @@
         endif
     "}
 
-    " Fugitive {
-        if isdirectory(expand("~/.vim/plugged/vim-fugitive/"))
-            nnoremap <silent> <leader>gs :Git<CR>
-            nnoremap <silent> <leader>gd :Gvdiffsplit<CR>
-            nnoremap <silent> <leader>gc :Git commit<CR>
-            nnoremap <silent> <leader>gb :Git blame<CR>
-            nnoremap <silent> <leader>gl :Git --paginate log --graph --pretty=format:'%h %d %s <%an> [%ad]' --abbrev-commit --date=relative -30<CR>
-            "nnoremap <silent> <leader>gp :Git push<CR>
-            nnoremap <silent> <leader>gr :Gread<CR>
-            nnoremap <silent> <leader>gw :Gwrite<CR>
-            nnoremap <silent> <leader>ge :Gedit<CR>
-
-            augroup fugitive_buffers
-                autocmd!
-                autocmd BufReadPost fugitive://* set bufhidden=delete
-            augroup END
-
-            " this matches the <leader>gl mapping above
-            function s:git_log_syntax()
-                syn match gitLgLine     /^[_\*|\/\\ ]\+\(\<\x\{4,40\}\>.*\)\?$/
-                syn match gitLgGraph    /^[_\*|\/\\ ]\+/ contained containedin=gitLgLine nextgroup=gitHashAbbrev skipwhite
-                syn match gitLgDate     /\[.*\]/ contained containedin=gitLgLine
-                syn match gitLgRefs     /(.*)/ contained containedin=gitLgLine
-                syn match gitLgCommit   /^[^-]\+- / contained containedin=gitLgLine nextgroup=gitLgIdentity skipwhite
-                syn match gitLgIdentity /<.*>/ contained containedin=gitLgLine
-                hi def link gitLgGraph    Comment
-                hi def link gitLgDate     gitDate
-                hi def link gitLgRefs     gitReference
-                hi def link gitLgIdentity gitIdentity
-            endfunction
-
-            augroup git_log_syntax
-                autocmd!
-                autocmd Syntax git call s:git_log_syntax()
-            augroup end
-
-        endif
-    "}
-
     " Vim LSP {
         if isdirectory(expand("~/.vim/plugged/vim-lsp/"))
             let g:lsp_diagnostics_enabled = 1
@@ -618,6 +579,45 @@
             augroup END
         endif
     " }
+
+    " Fugitive {
+        if isdirectory(expand("~/.vim/plugged/vim-fugitive/"))
+            nnoremap <silent> <leader>gs :Git<CR>
+            nnoremap <silent> <leader>gd :Gvdiffsplit<CR>
+            nnoremap <silent> <leader>gc :Git commit<CR>
+            nnoremap <silent> <leader>gb :Git blame<CR>
+            nnoremap <silent> <leader>gl :Git --paginate log --graph --pretty=format:'%h %d %s <%an> [%ad]' --abbrev-commit --date=relative -30<CR>
+            "nnoremap <silent> <leader>gp :Git push<CR>
+            nnoremap <silent> <leader>gr :Gread<CR>
+            nnoremap <silent> <leader>gw :Gwrite<CR>
+            nnoremap <silent> <leader>ge :Gedit<CR>
+
+            augroup fugitive_buffers
+                autocmd!
+                autocmd BufReadPost fugitive://* set bufhidden=delete
+            augroup END
+
+            " this matches the <leader>gl mapping above
+            function s:git_log_syntax()
+                syn match gitLgLine     /^[_\*|\/\\ ]\+\(\<\x\{4,40\}\>.*\)\?$/
+                syn match gitLgGraph    /^[_\*|\/\\ ]\+/ contained containedin=gitLgLine nextgroup=gitHashAbbrev skipwhite
+                syn match gitLgDate     /\[.*\]/ contained containedin=gitLgLine
+                syn match gitLgRefs     /(.*)/ contained containedin=gitLgLine
+                syn match gitLgCommit   /^[^-]\+- / contained containedin=gitLgLine nextgroup=gitLgIdentity skipwhite
+                syn match gitLgIdentity /<.*>/ contained containedin=gitLgLine
+                hi def link gitLgGraph    Comment
+                hi def link gitLgDate     gitDate
+                hi def link gitLgRefs     gitReference
+                hi def link gitLgIdentity gitIdentity
+            endfunction
+
+            augroup git_log_syntax
+                autocmd!
+                autocmd Syntax git call s:git_log_syntax()
+            augroup end
+
+        endif
+    "}
 " }
 
 " GVim Settings {
