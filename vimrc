@@ -476,7 +476,9 @@
                 nmap <silent> <buffer> [g <Plug>(lsp-previous-diagnostic)
                 nmap <silent> <buffer> ]g <Plug>(lsp-next-diagnostic)
                 nmap <buffer> K <Plug>(lsp-hover)
-                nmap <buffer> <leader>.f <Plug>(lsp-code-action)
+                nmap <buffer> <leader>d <Plug>(lsp-code-action)
+                vmap <buffer> <leader>d :LspCodeAction<CR>
+                " vmap <buffer> <leader>d <Plug>(lsp-code-action)
                 nmap <buffer> <leader>.q <Plug>(lsp-document-format)
 
                 " autoformating currently done with vim-codefmt, see below
