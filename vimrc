@@ -308,10 +308,10 @@
     noremap <C-F8> <C-W><C-]>
 
     " window movement
-    noremap <C-H> <C-W><C-H>
-    noremap <C-L> <C-W><C-L>
-    noremap <C-J> <C-W><C-J>
-    noremap <C-K> <C-W><C-K>
+    nnoremap <C-H> <C-W><C-H>
+    nnoremap <C-L> <C-W><C-L>
+    nnoremap <C-J> <C-W><C-J>
+    nnoremap <C-K> <C-W><C-K>
 
     " Wrapped lines goes down/up to next row, rather than next line in file.
     noremap j gj
@@ -564,7 +564,7 @@
               autocmd FileType rust AutoFormatBuffer rustfmt
             augroup END
 
-            Glaive codefmt clang_format_executable="clang-format-6.0"
+            Glaive codefmt clang_format_executable="clang-format-11"
         endif
     " }
 

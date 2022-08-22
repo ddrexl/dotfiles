@@ -15,7 +15,7 @@
     cp = cherry-pick
     df = diff
     ds = diff --staged
-    l = log --branches --tags --graph --oneline --decorate -10
+    l = log --graph --oneline --decorate -10
     rb = rebase
     rba = rebase --abort
     rbc = rebase --continue
@@ -46,5 +46,7 @@
 [user]
     # force user config on a per repo basis if no global user config
     useconfigonly = true
+[commit]
+  template = ~/.gitmessage
 
 # vim: sw=4 ts=4 et filetype=gitconfig:
