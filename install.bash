@@ -109,6 +109,11 @@ configure_git() {
         echo could not create ~/.git_template/ as it already exists
     fi
 
+    if [ ! -e ~/.gitmessage ]; then
+        echo creating empty .gitmessage file
+        touch ~/.gitmessage
+    fi
+
     # never overwrite existing .gitconfig
     if [ ! -f ~/.gitconfig ]; then
         cp ${DOTDIR}/gitconfig ~/.gitconfig
