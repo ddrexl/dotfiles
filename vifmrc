@@ -490,6 +490,12 @@ nnoremap <c-u> <c-w>x
 " Use ag (the silver searcher) instead of grep
 "
 " set grepprg='ag --line-numbers %i %a %s'
+if executable('rg')
+    " search hidden files too
+    set grepprg=rg\ -uu\ --color=never\ --vimgrep\ --no-heading
+elseif executable('ag')
+    set grepprg=ag\ --vimgrep\ --smart-case\ $*
+endif
 
 " Add additional place to look for executables
 "
