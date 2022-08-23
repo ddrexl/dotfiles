@@ -18,6 +18,7 @@ install_packages() {
         rsync
         tmux
         tree
+        vifm
         vim
         xsel
         zsh
@@ -132,6 +133,16 @@ configure_zsh() {
     ln -sv ${DOTDIR}/zshrc ~/.zshrc
 }
 
+configure_vifm() {
+    echo configure vifm
+
+    local VIFM_CONFIG="${HOME}/.config/vifm"
+    mkdir -vp ${VIFM_CONFIG}/colors
+
+    ln -sv ${DOTDIR}/solarized-dark.vifm ${VIFM_CONFIG}/colors/solarized-dark.vifm
+    ln -sv ${DOTDIR}/vifmrc ${VIFM_CONFIG}/vifmrc
+}
+
 IFS=', '
 read -p "Choose your option(s)
 install
@@ -145,7 +156,8 @@ configure
     7)  tmux
     8)  git
     9)  zsh
-    10) all of the above
+    10) vifm
+    11) all of the above
 > " -a array
 
 for choice in "${array[@]}"; do
@@ -181,10 +193,14 @@ for choice in "${array[@]}"; do
             configure_zsh
             ;;
         10)
+            configure_vifm
+            ;;
+        11)
             configure_vim
             configure_tmux
             configure_git
             configure_zsh
+            configure_vifm
             ;;
         *)
             echo invalid number
