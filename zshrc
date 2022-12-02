@@ -90,7 +90,7 @@ setopt auto_cd
 
 # caps as additional escape
 # to work at startup, put it in ~/.profile
-setxkbmap -option caps:escape
+dconf write /org/gnome/desktop/input-sources/xkb-options "['caps:escape']"
 
 # source local zsh
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
