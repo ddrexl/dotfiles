@@ -88,9 +88,10 @@ eval "$(direnv hook zsh)"
 # auto cd
 setopt auto_cd
 
-# caps as additional escape
-# to work at startup, put it in ~/.profile
-dconf write /org/gnome/desktop/input-sources/xkb-options "['caps:escape']"
+# caps as additional escape (to work at startup, put it in ~/.profile)
+if (( ${+DISPLAY} )); then
+    dconf write /org/gnome/desktop/input-sources/xkb-options "['caps:escape']"
+fi
 
 # source local zsh
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
@@ -98,6 +99,7 @@ dconf write /org/gnome/desktop/input-sources/xkb-options "['caps:escape']"
 # disable scroll lock
 stty -ixon
 
+# add bin to path
 path+=~/.local/bin
 path+=~/bin
 export PATH
