@@ -190,8 +190,10 @@
 
         if has("patch-8.1-1365")
             set modeline
+            set modelineexpr
         else
             set nomodeline              " security issue without this patch
+            set nomodelineexpr
         endif
 
         if has('path_extra')
