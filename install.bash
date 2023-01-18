@@ -143,8 +143,9 @@ configure_vifm() {
     ln -sv ${DOTDIR}/vifmrc ${VIFM_CONFIG}/vifmrc
 }
 
-IFS=', '
-read -p "Choose your option(s)
+if [ "$#" -eq 0 ]; then
+    IFS=', '
+    read -p "Choose your option(s)
 install
     1) packages
     2) oh_my_zsh!
@@ -159,6 +160,10 @@ configure
     10) vifm
     11) all of the above
 > " -a array
+
+else
+    array=("$@")
+fi
 
 for choice in "${array[@]}"; do
     case "$choice" in
@@ -207,6 +212,7 @@ for choice in "${array[@]}"; do
             ;;
     esac
 done
+
 unset DOTDIR
 
 # vim:set et sw=4 ts=4 fdm=indent:
