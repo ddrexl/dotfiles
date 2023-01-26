@@ -1,6 +1,11 @@
 #!/bin/bash
 # TODO help, opitonal force link
 
+# Exit on error
+set -o errexit
+# Exit on error inside any functions or subshells
+set -o errtrace
+
 DOTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 exists() {
@@ -143,27 +148,56 @@ configure_vifm() {
     ln -sv ${DOTDIR}/vifmrc ${VIFM_CONFIG}/vifmrc
 }
 
-if [ "$#" -eq 0 ]; then
-    IFS=', '
-    read -p "Choose your option(s)
-install
-    1) packages
-    2) oh_my_zsh!
-    3) powerline symbols
-    4) solarized color scheme
-    5) all of the above
-configure
-    6)  vim
-    7)  tmux
-    8)  git
-    9)  zsh
-    10) vifm
-    11) all of the above
-> " -a array
+help() {
+    echo "Install and configure the dotfiles
+    -h|--help               show this help
 
-else
-    array=("$@")
+    --install_packages      my dev packages
+    --oh_my_zsh
+    --powerline_symbols
+    --solarized_color_theme install tested for gnome_shell
+    --install_all           installs all above options
+
+    --configure_vim
+    --configure_tmux
+    --configure_git
+    --configure_zsh
+    --configure_vifm
+    --configure_all         configures all above options
+
+Without arguments, the default applies:
+    --install_packages --configure_all
+"
+}
+
+array=()
+
+if [[ "$#" -eq 0 ]]; then
+    array+=" 1"
+    array+=" 11"
 fi
+
+while [[ "$#" -gt 0 ]]; do
+    case $1 in
+        -h|--help) help; exit 0;;
+
+        --install_packages) array+=" 1";;
+        --oh_my_zsh) array+=" 2";;
+        --powerline_symbols) array+=" 3";;
+        --solarized_color_theme) array+=" 4";;
+        --install_all) array+=" 5";;
+
+        --configure_vim) array+=" 6";;
+        --configure_tmux) array+=" 7";;
+        --configure_git) array+=" 8";;
+        --configure_zsh) array+=" 9";;
+        --configure_vifm) array+=" 10";;
+        --configure_all) array+=" 11";;
+
+        *) echo "Unknown parameter passed: $1"; exit 1 ;;
+    esac
+    shift
+done
 
 for choice in "${array[@]}"; do
     case "$choice" in
@@ -213,6 +247,7 @@ for choice in "${array[@]}"; do
     esac
 done
 
+unset array
 unset DOTDIR
 
 # vim:set et sw=4 ts=4 fdm=indent:
