@@ -173,26 +173,26 @@ Without arguments, the default applies:
 array=()
 
 if [[ "$#" -eq 0 ]]; then
-    array+=" 1"
-    array+=" 11"
+    array+=(1)
+    array+=(11)
 fi
 
 while [[ "$#" -gt 0 ]]; do
     case $1 in
         -h|--help) help; exit 0;;
 
-        --install_packages) array+=" 1";;
-        --oh_my_zsh) array+=" 2";;
-        --powerline_symbols) array+=" 3";;
-        --solarized_color_theme) array+=" 4";;
-        --install_all) array+=" 5";;
+        --install_packages) array+=(1);;
+        --oh_my_zsh) array+=(2);;
+        --powerline_symbols) array+=(3);;
+        --solarized_color_theme) array+=(4);;
+        --install_all) array+=(5);;
 
-        --configure_vim) array+=" 6";;
-        --configure_tmux) array+=" 7";;
-        --configure_git) array+=" 8";;
-        --configure_zsh) array+=" 9";;
-        --configure_vifm) array+=" 10";;
-        --configure_all) array+=" 11";;
+        --configure_vim) array+=(6);;
+        --configure_tmux) array+=(7);;
+        --configure_git) array+=(8);;
+        --configure_zsh) array+=(9);;
+        --configure_vifm) array+=(10);;
+        --configure_all) array+=(11);;
 
         *) echo "Unknown parameter passed: $1"; exit 1 ;;
     esac
@@ -242,7 +242,7 @@ for choice in "${array[@]}"; do
             configure_vifm
             ;;
         *)
-            echo invalid number
+            echo invalid number $choice
             ;;
     esac
 done
