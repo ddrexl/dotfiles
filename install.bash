@@ -1,11 +1,6 @@
 #!/bin/bash
 # TODO help, opitonal force link
 
-# Exit on error
-set -o errexit
-# Exit on error inside any functions or subshells
-set -o errtrace
-
 DOTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 exists() {
