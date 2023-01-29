@@ -557,9 +557,16 @@
 
     " Autoformat {
         if isdirectory(expand("~/.vim/plugged/vim-autoformat/"))
+
+            let g:autoformat_autoindent = 0
+            let g:autoformat_retab = 0
+            let g:autoformat_remove_trailing_spaces = 0 " todo enable, but solve markdown issue
+            let g:autoformat_verbosemode=0
+
             augroup autoformat_settings
               autocmd BufWrite * :Autoformat
             augroup END
+
         endif
     " }
 
