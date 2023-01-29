@@ -19,10 +19,11 @@ install_packages() {
         tmux
         tree
         vifm
-        vim
+        vim-athena
         xsel
         zsh
     )
+    # vim-athena has +clipboard and +python3
 
     sudo apt update
     echo ${packages[*]} | xargs sudo apt install --assume-yes
