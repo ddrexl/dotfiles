@@ -99,7 +99,7 @@
         Plug 'ctrlpvim/ctrlp.vim'               " Fuzzy file opener
         Plug 'easymotion/vim-easymotion'        " Speed of light motion
         Plug 'godlygeek/tabular'                " Text alignment
-        Plug 'google/vim-codefmt' | Plug 'google/vim-maktaba' | Plug 'google/vim-glaive' " Auto formatting
+        Plug 'vim-autoformat/vim-autoformat'    " Auto formatting
         Plug 'majutsushi/tagbar'                " Tags in sidebar
         Plug 'michaeljsmith/vim-indent-object'  " Indent object
         Plug 'scrooloose/nerdtree'              " File browser sidebar
@@ -122,7 +122,6 @@
 
         call plug#end()
 
-        call glaive#Install()
     endif
 " }
 
@@ -556,17 +555,11 @@
         endif
     " }
 
-    " Codeformat {
-        if isdirectory(expand("~/.vim/plugged/vim-codefmt/"))
+    " Autoformat {
+        if isdirectory(expand("~/.vim/plugged/vim-autoformat/"))
             augroup autoformat_settings
-              autocmd FileType bzl AutoFormatBuffer buildifier
-              autocmd FileType c,cpp,proto,javascript,arduino AutoFormatBuffer clang-format
-              autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
-              autocmd FileType python AutoFormatBuffer black
-              autocmd FileType rust AutoFormatBuffer rustfmt
+              autocmd BufWrite * :Autoformat
             augroup END
-
-            Glaive codefmt clang_format_executable="clang-format-11"
         endif
     " }
 
