@@ -138,6 +138,7 @@
     set display+=lastline           " No legacy vi display
     set encoding=utf-8              " Use UTF-8, required for YCM
     set foldenable                  " Auto fold code
+    set foldlevel=99                " Don't fold by default
     set hidden                      " Allow buffer switching without saving
     set history=1000                " Store a ton of history (default is 20)
     set hlsearch                    " Highlight search terms
