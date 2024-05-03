@@ -64,10 +64,10 @@ colorscheme solarized-dark
 
 
 " Format for displaying time in file list. For example:
-" TIME_STAMP_FORMAT=%m/%d-%H:%M
+" TIME_STAMP_FORMAT=%d.%m.%y-%H:%M
 " See man date or man strftime for details.
 
-set timefmt=%m/%d\ %H:%M
+set timefmt=%d.%m.%Y\ %H:%M
 
 " Show list of matches on tab completion in command-line mode
 
@@ -397,6 +397,7 @@ set vifminfo=dhistory,savedirs,chistory,state,tui,shistory,
 " Customize view columns a bit (enable ellipsis for truncated file names)
 "
 " set viewcolumns=-{name}..,6{}.
+set viewcolumns=-{name}..,11{perms},7{size},17{mtime}
 
 " Filter-out build and temporary files
 "
