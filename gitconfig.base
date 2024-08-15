@@ -5,7 +5,6 @@
 [color]
     ui = auto
 [alias]
-    aliases = config --get-regexp alias
     br = branch
     ca = commit --amend
     ce = commit --amend --no-edit
@@ -15,6 +14,7 @@
     cp = cherry-pick
     df = diff
     ds = diff --staged
+    # show only 10 logs
     l = log --graph --oneline --decorate -10
     rb = rebase
     rba = rebase --abort
@@ -26,13 +26,16 @@
     st = status
     who = log --pretty=format:'%w(120, 0, 38)%C(yellow)%h%Creset %C(green)%<(15,trunc)%an%Creset %C(cyan)%<(12,trunc)%cr%Creset %C(red)%d%Creset %s'  --all
 
-    # Show verbose output about tags, branches or remotes
+    # useful lists - note the plural form
     tags = tag -l
     branches = branch -a
     remotes = remote -v
+    aliases = config --get-regexp alias
 
     # delete fully merged branches
     brd = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
+    upd = "!git co main && git pull && git co - && git rebase main"
+    upd-all = "!for branch in $(git for-each-ref --format=\"%(refname:lstrip=2)\" refs/heads/); do git rebase origin/main \"$branch\" || git rebase --abort; done"
 [core]
     excludesfile = ~/.gitignore
 [fetch]
