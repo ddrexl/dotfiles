@@ -82,7 +82,7 @@ install_solarized_color_scheme() {
 configure_vim() {
     echo configure vim
 
-    ln -sv ${DOTDIR}/vimrc ~/.vimrc
+    ln -svf ${DOTDIR}/vimrc ~/.vimrc
 
     # never overwrite existing .vimrc.local
     if [ ! -f ~/.vimrc.local ]; then
@@ -96,14 +96,17 @@ configure_vim() {
 configure_tmux() {
     echo configure tmux
 
-    ln -sv ${DOTDIR}/tmux.conf ~/.tmux.conf
+    ln -svf ${DOTDIR}/tmux.conf ~/.tmux.conf
 }
 
 configure_git() {
     echo configure git
 
-    ln -sv ${DOTDIR}/gitconfig.base ~/.gitconfig.base
-    ln -sv ${DOTDIR}/gitignore ~/.gitignore
+    ln -svf ${DOTDIR}/gitconfig.base ~/.gitconfig.base
+
+    if [ ! -e ~/.gitignore ]; then
+        ln -sv ${DOTDIR}/gitignore ~/.gitignore
+    fi
 
     if [ ! -e ~/.git_template ]; then
         ln -sv ${DOTDIR}/git_template ~/.git_template
@@ -131,7 +134,7 @@ configure_zsh() {
     curl -fLo ~/.zsh/dircolors/dircolors.ansi-dark https://raw.githubusercontent.com/seebi/dircolors-solarized/master/dircolors.ansi-dark --create-dirs
     mkdir ~/.zsh/completions
     mkdir ~/.zsh/cache
-    ln -sv ${DOTDIR}/zshrc ~/.zshrc
+    ln -svf ${DOTDIR}/zshrc ~/.zshrc
 }
 
 configure_vifm() {
@@ -140,8 +143,8 @@ configure_vifm() {
     local VIFM_CONFIG="${HOME}/.config/vifm"
     mkdir -vp ${VIFM_CONFIG}/colors
 
-    ln -sv ${DOTDIR}/solarized-dark.vifm ${VIFM_CONFIG}/colors/solarized-dark.vifm
-    ln -sv ${DOTDIR}/vifmrc ${VIFM_CONFIG}/vifmrc
+    ln -svf ${DOTDIR}/solarized-dark.vifm ${VIFM_CONFIG}/colors/solarized-dark.vifm
+    ln -svf ${DOTDIR}/vifmrc ${VIFM_CONFIG}/vifmrc
 }
 
 help() {
