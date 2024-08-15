@@ -79,6 +79,38 @@ install_solarized_color_scheme() {
     rm -rf $DIR
 }
 
+install_kubernetes_tools() {
+    if ! exists kubectl; then
+        echo install kubectl
+        local RELEASE=$(curl -L -s https://dl.k8s.io/release/stable.txt)
+        curl -LO "https://dl.k8s.io/release/$RELEASE/bin/linux/amd64/kubectl"
+        chmod +x ./kubectl
+        sudo mv ./kubectl /usr/local/bin/
+    else
+        echo kubectl found
+    fi
+
+    if ! exists helm; then
+        echo install helm
+        curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+        chmod 700 get_helm.sh
+        sudo ./get_helm.sh
+        rm ./get_helm.sh
+    else
+        echo helm found
+    fi
+
+    if ! exists minikube; then
+        echo install minikube
+        curl -Lo minikube "https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64"
+        chmod +x ./minikube
+        sudo mv ./minikube /usr/local/bin/
+        minikube config set driver docker
+    else
+        echo minikube found
+    fi
+}
+
 configure_vim() {
     echo configure vim
 
@@ -147,6 +179,19 @@ configure_vifm() {
     ln -svf ${DOTDIR}/vifmrc ${VIFM_CONFIG}/vifmrc
 }
 
+configure_kubernetes_tools() {
+    echo configure kubernetes tools
+
+    if [ -d ~/.zsh/completions ]; then
+        cd ~/.zsh/completions
+
+        minikube completion zsh > _minikube
+        kubectl  completion zsh > _kubectl
+        helm     completion zsh > _helm
+    fi
+
+}
+
 help() {
     echo "Install and configure the dotfiles
     -h|--help               show this help
@@ -155,17 +200,21 @@ help() {
     --oh_my_zsh
     --powerline_symbols
     --solarized_color_theme install tested for gnome_shell
+    --install_k8s           install kubectl, helm, minikube
     --install_all           installs all above options
 
+    --configure_all         configures all below options
     --configure_vim
     --configure_tmux
     --configure_git
     --configure_zsh
     --configure_vifm
-    --configure_all         configures all above options
+    --configure_k8s
 
 Without arguments, the default applies:
-    --install_packages --configure_all
+    --install_packages
+    --install_k8s
+    --configure_all
 "
 }
 
@@ -173,7 +222,8 @@ array=()
 
 if [[ "$#" -eq 0 ]]; then
     array+=(1)
-    array+=(11)
+    array+=(13)
+    array+=(6)
 fi
 
 while [[ "$#" -gt 0 ]]; do
@@ -184,14 +234,16 @@ while [[ "$#" -gt 0 ]]; do
         --oh_my_zsh) array+=(2);;
         --powerline_symbols) array+=(3);;
         --solarized_color_theme) array+=(4);;
+        --install_k8s) array+=(13);;
         --install_all) array+=(5);;
 
-        --configure_vim) array+=(6);;
-        --configure_tmux) array+=(7);;
-        --configure_git) array+=(8);;
-        --configure_zsh) array+=(9);;
-        --configure_vifm) array+=(10);;
-        --configure_all) array+=(11);;
+        --configure_all) array+=(6);;
+        --configure_vim) array+=(7);;
+        --configure_tmux) array+=(8);;
+        --configure_git) array+=(9);;
+        --configure_zsh) array+=(10);;
+        --configure_vifm) array+=(11);;
+        --configure_k8s) array+=(12);;
 
         *) echo "Unknown parameter passed: $1"; exit 1 ;;
     esac
@@ -212,33 +264,41 @@ for choice in "${array[@]}"; do
         4)
             install_solarized_color_scheme
             ;;
+        13)
+            install_kubernetes_tools
+            ;;
         5)
             install_packages
             install_oh_my_zsh
             install_powerline_symbols
             install_solarized_color_scheme
+            install_kubernetes_tools
             ;;
         6)
             configure_vim
+            configure_tmux
+            configure_git
+            configure_zsh
+            configure_vifm
+            configure_kubernetes_tools
             ;;
         7)
-            configure_tmux
+            configure_vim
             ;;
         8)
-            configure_git
+            configure_tmux
             ;;
         9)
-            configure_zsh
+            configure_git
             ;;
         10)
-            configure_vifm
+            configure_zsh
             ;;
         11)
-            configure_vim
-            configure_tmux
-            configure_git
-            configure_zsh
             configure_vifm
+            ;;
+        12)
+            configure_kubernetes_tools
             ;;
         *)
             echo invalid number $choice
