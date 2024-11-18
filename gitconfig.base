@@ -14,6 +14,7 @@
     cp = cherry-pick
     df = diff
     ds = diff --staged
+    sh = show HEAD
     # show only 10 logs
     l = log --graph --oneline --decorate -10
     rb = rebase
@@ -34,7 +35,9 @@
 
     # delete fully merged branches
     brd = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
+    # rebase current branch onto freshly pulled main
     upd = "!git co main && git pull && git co - && git rebase main"
+    # try to rebase local branches onto origin/main
     upd-all = "!for branch in $(git for-each-ref --format=\"%(refname:lstrip=2)\" refs/heads/); do git rebase origin/main \"$branch\" || git rebase --abort; done"
 [core]
     excludesfile = ~/.gitignore
