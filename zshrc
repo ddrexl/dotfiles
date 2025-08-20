@@ -27,6 +27,7 @@ alias md='mkdir -p'
 alias t='tmux attach -t 0 || tmux new'
 alias tt='tmux attach -t 0-1 || tmux new -t 0'
 alias which-command=whence
+alias k="kubectl"
 
 # vi mode
 bindkey -v
