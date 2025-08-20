@@ -99,16 +99,6 @@ install_kubernetes_tools() {
     else
         echo helm found
     fi
-
-    if ! exists minikube; then
-        echo install minikube
-        curl -Lo minikube "https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64"
-        chmod +x ./minikube
-        sudo mv ./minikube /usr/local/bin/
-        minikube config set driver docker
-    else
-        echo minikube found
-    fi
 }
 
 configure_vim() {
@@ -185,7 +175,6 @@ configure_kubernetes_tools() {
     if [ -d ~/.zsh/completions ]; then
         cd ~/.zsh/completions
 
-        minikube completion zsh > _minikube
         kubectl  completion zsh > _kubectl
         helm     completion zsh > _helm
     fi
@@ -200,7 +189,7 @@ help() {
     --oh_my_zsh
     --powerline_symbols
     --solarized_color_theme install tested for gnome_shell
-    --install_k8s           install kubectl, helm, minikube
+    --install_k8s           install kubectl, helm
     --install_all           installs all above options
 
     --configure_all         configures all below options
