@@ -38,7 +38,9 @@
     # rebase current branch onto freshly pulled main
     upd = "!git co main && git pull && git co - && git rebase main"
     # try to rebase local branches onto origin/main
-    upd-all = "!for branch in $(git for-each-ref --format=\"%(refname:lstrip=2)\" refs/heads/); do git rebase origin/main \"$branch\" || git rebase --abort; done"
+    upd-rebase-all = "!for branch in $(git for-each-ref --format=\"%(refname:lstrip=2)\" refs/heads/); do echo rebasing \"$branch\"; git rebase origin/main \"$branch\" > /dev/null || git rebase --abort; done"
+    # do all above
+    upd-all = "!git upd-rebase-all && git co main && (git brd 2> /dev/null || echo all up-to-date)"
 [core]
     excludesfile = ~/.gitignore
 [fetch]
