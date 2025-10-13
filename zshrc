@@ -90,8 +90,8 @@ eval "$(direnv hook zsh)"
 setopt auto_cd
 
 # caps as additional escape (to work at startup, put it in ~/.profile)
-if (( ${+DISPLAY} )); then
-    dconf write /org/gnome/desktop/input-sources/xkb-options "['caps:escape']"
+if (( ${+DISPLAY} )) && command -v dconf >/dev/null 2>&1; then
+      dconf write /org/gnome/desktop/input-sources/xkb-options "['caps:escape']"
 fi
 
 # source local zsh
