@@ -100,7 +100,6 @@
         Plug 'easymotion/vim-easymotion'        " Speed of light motion
         Plug 'godlygeek/tabular'                " Text alignment
         Plug 'vim-autoformat/vim-autoformat'    " Auto formatting
-        Plug 'majutsushi/tagbar'                " Tags in sidebar
         Plug 'michaeljsmith/vim-indent-object'  " Indent object
         Plug 'scrooloose/nerdtree'              " File browser sidebar
         Plug 'sirver/ultisnips' | Plug 'honza/vim-snippets' " Code snippets
