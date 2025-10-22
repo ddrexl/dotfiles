@@ -591,7 +591,7 @@
             nnoremap <silent> <leader>gc :Git commit<CR>
             nnoremap <silent> <leader>gb :Git blame<CR>
             nnoremap <silent> <leader>gl :Git --paginate log --graph --pretty=format:'%h %d %s <%an> [%ad]' --abbrev-commit --date=relative -30<CR>
-            "nnoremap <silent> <leader>gp :Git push<CR>
+            nnoremap <silent> <leader>gp :Git push<CR>
             nnoremap <silent> <leader>gr :Gread<CR>
             nnoremap <silent> <leader>gw :Gwrite<CR>
             nnoremap <silent> <leader>ge :Gedit<CR>
