@@ -103,6 +103,32 @@ install_kubernetes_tools() {
     fi
 }
 
+install_docker_in_wsl2() {
+    # tested with ubuntu 24.04
+
+    # System is up to date
+    sudo apt update && sudo apt upgrade -y
+
+    # Add Docker's official GPG key
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+
+    # Install the docker repository
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+    # Update package index
+    sudo apt update
+
+    # Install docker
+    sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+    # No sudo for docker commands
+    sudo groupadd docker || true
+    sudo usermod -aG docker $USER
+
+    echo restart WSL2 to apply the changes
+    echo execute \"wsl --shutdown\" in cmd or pwsh
+}
+
 configure_vim() {
     echo configure vim
 
@@ -181,31 +207,6 @@ configure_kubernetes_tools() {
         helm     completion zsh > _helm
     fi
 
-}
-
-# tested with ubuntu 24.04
-install_docker_in_wsl2() {
-    # System is up to date
-    sudo apt update && sudo apt upgrade -y
-
-    # Add Docker's official GPG key
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-
-    # Install the docker repository
-    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-
-    # Update package index
-    sudo apt update
-
-    # Install docker
-    sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-
-    # No sudo for docker commands
-    sudo groupadd docker || true
-    sudo usermod -aG docker $USER
-
-    echo restart WSL2 to apply the changes
-    echo execute \"wsl --shutdown\" in cmd or pwsh
 }
 
 help() {
