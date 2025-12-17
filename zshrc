@@ -18,16 +18,14 @@ alias 8='cd -8'
 alias 9='cd -9'
 alias grep='rg'
 alias gr='rg'
-alias l='ls -lah'
-alias la='ls -lAh'
-alias ll='ls -lh'
-alias ls='ls --color=tty'
-alias lsa='ls -lah'
+alias ls='eza'
+alias l='eza -la --git --git-repos-no-status'
 alias md='mkdir -p'
 alias t='tmux attach -t 0 || tmux new'
 alias tt='tmux attach -t 0-1 || tmux new -t 0'
 alias which-command=whence
 alias k="kubectl"
+alias c="batcat"
 
 # vi mode
 bindkey -v

@@ -24,6 +24,8 @@ install_packages() {
         zsh
         jq
         dnsutils
+        bat
+        eza
     )
     # vim-athena has +clipboard and +python3
 
