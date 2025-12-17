@@ -183,6 +183,31 @@ configure_kubernetes_tools() {
 
 }
 
+# tested with ubuntu 24.04
+install_docker_in_wsl2() {
+    # System is up to date
+    sudo apt update && sudo apt upgrade -y
+
+    # Add Docker's official GPG key
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+
+    # Install the docker repository
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+    # Update package index
+    sudo apt update
+
+    # Install docker
+    sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+    # No sudo for docker commands
+    sudo groupadd docker || true
+    sudo usermod -aG docker $USER
+
+    echo restart WSL2 to apply the changes
+    echo execute \"wsl --shutdown\" in cmd or pwsh
+}
+
 help() {
     echo "Install and configure the dotfiles
     -h|--help               show this help
@@ -193,6 +218,7 @@ help() {
     --solarized_color_theme install tested for gnome_shell
     --install_k8s           install kubectl, helm
     --install_all           installs all above options
+    --install_docker_wsl2   installs docker in wsl2 (no docker desktop)
 
     --configure_all         configures all below options
     --configure_vim
@@ -227,6 +253,7 @@ while [[ "$#" -gt 0 ]]; do
         --solarized_color_theme) array+=(4);;
         --install_k8s) array+=(13);;
         --install_all) array+=(5);;
+        --install_docker_wsl2) array+=(14);;
 
         --configure_all) array+=(6);;
         --configure_vim) array+=(7);;
@@ -257,6 +284,9 @@ for choice in "${array[@]}"; do
             ;;
         13)
             install_kubernetes_tools
+            ;;
+        14)
+            install_docker_in_wsl2
             ;;
         5)
             install_packages
