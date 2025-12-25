@@ -52,11 +52,6 @@ install_dev_packages() {
     sudo update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-9 100
 }
 
-install_oh_my_zsh() {
-    echo install oh my zsh
-    sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-}
-
 install_powerline_symbols() {
     echo install powerline symbols
     local FONT_DIR="~/.local/share/fonts"
@@ -67,21 +62,6 @@ install_powerline_symbols() {
         fc-cache -vf ${FONT_DIR}
         curl -fLo ~/.config/fontconfig/conf.d/10-powerline-symbols.conf ${URL}/10-powerline-symbols.conf --create-dirs
     fi
-}
-
-install_solarized_color_scheme() {
-    echo install solarized color scheme for gnome terminal
-    local DIR="/tmp/solarized$$"
-
-    if ! exists dconf; then
-        echo "Package dconf-cli required for solarized colors!"
-        sudo apt install dconf-cli
-        return -1
-    fi
-
-    git clone https://github.com/sigurdga/gnome-terminal-colors-solarized $DIR
-    $DIR/install.sh
-    rm -rf $DIR
 }
 
 install_kubernetes_tools() {
@@ -227,9 +207,7 @@ help() {
     -h|--help               show this help
 
     --install_packages      my dev packages
-    --oh_my_zsh
     --powerline_symbols
-    --solarized_color_theme install tested for gnome_shell
     --install_k8s           install kubectl, helm
     --install_all           installs all above options
     --install_docker_wsl2   installs docker in wsl2 (no docker desktop)
@@ -262,9 +240,7 @@ while [[ "$#" -gt 0 ]]; do
         -h|--help) help; exit 0;;
 
         --install_packages) array+=(1);;
-        --oh_my_zsh) array+=(2);;
         --powerline_symbols) array+=(3);;
-        --solarized_color_theme) array+=(4);;
         --install_k8s) array+=(13);;
         --install_all) array+=(5);;
         --install_docker_wsl2) array+=(14);;
@@ -287,14 +263,8 @@ for choice in "${array[@]}"; do
         1)
             install_packages
             ;;
-        2)
-            install_oh_my_zsh
-            ;;
         3)
             install_powerline_symbols
-            ;;
-        4)
-            install_solarized_color_scheme
             ;;
         13)
             install_kubernetes_tools
@@ -304,9 +274,7 @@ for choice in "${array[@]}"; do
             ;;
         5)
             install_packages
-            install_oh_my_zsh
             install_powerline_symbols
-            install_solarized_color_scheme
             install_kubernetes_tools
             ;;
         6)
