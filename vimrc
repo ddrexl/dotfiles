@@ -552,6 +552,8 @@
         if isdirectory(expand("~/.vim/plugged/vimwiki/"))
             let g:vimwiki_listsyms = ' .oO✓'
             let g:vimwiki_folding = 'expr'
+            let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'default', 'ext': '.wiki'},
+                                \ {'path': '~/obsidian/notes/', 'syntax': 'markdown', 'ext': '.md'}]
         endif
     " }
 
