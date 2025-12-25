@@ -118,6 +118,7 @@
         Plug 'wellle/targets.vim'               " Various text objects
         Plug 'tpope/vim-dispatch', {'for': 'rust'}    " Async cargo commands for rust
         Plug 'cespare/vim-toml', { 'branch': 'main' } " Included in Vim 8.2.3519
+        Plug 'vifm/vifm.vim'
 
         call plug#end()
 
