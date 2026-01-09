@@ -167,7 +167,7 @@ command! rmdir :!rmdir %c
 " program.
 
 " Pdf
-filextype {*.pdf},<application/pdf> zathura %c %i &, apvlv %c, xpdf %c
+filextype {*.pdf},<application/pdf> evince %c
 fileviewer {*.pdf},<application/pdf> pdftotext -nopgbrk %c -
 
 " PostScript
