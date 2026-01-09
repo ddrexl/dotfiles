@@ -12,7 +12,6 @@ install_packages() {
 
     local packages=(
         curl
-        direnv
         git
         ripgrep
         rsync

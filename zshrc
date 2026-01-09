@@ -81,9 +81,6 @@ setopt share_history          # share command history data
 # colors
 eval `dircolors ~/.zsh/dircolors/dircolors.ansi-dark`
 
-# direnv
-eval "$(direnv hook zsh)"
-
 # auto cd
 setopt auto_cd
 
