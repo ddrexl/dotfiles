@@ -109,7 +109,7 @@
         Plug 'tpope/vim-repeat'                 " Repeatable tpope commands
         Plug 'tpope/vim-surround'               " Parenthesis commands
         Plug 'tpope/vim-unimpaired'             " Pairs of handy bracket mappings
-        Plug 'prabirshrestha/vim-lsp' | Plug 'mattn/vim-lsp-settings'                       " Language server
+        " Plug 'prabirshrestha/vim-lsp' | Plug 'mattn/vim-lsp-settings'                       " Language server
         Plug 'prabirshrestha/asyncomplete.vim' | Plug 'prabirshrestha/asyncomplete-lsp.vim' " Auto-completion
         Plug 'vim-airline/vim-airline'          " Statusline
         Plug 'vim-airline/vim-airline-themes'   " Solarized theme for airline
@@ -458,8 +458,10 @@
             let g:lsp_diagnostics_signs_enabled = 1
             let g:lsp_diagnostics_echo_cursor = 1
             let g:lsp_diagnostics_float_cursor = 0
-            let g:lsp_diagnostics_signs_error = {'text': '✗'}
+            let g:lsp_diagnostics_signs_error   = {'text': '✗'}
             let g:lsp_diagnostics_signs_warning = {'text': '‼'}
+            let g:lsp_diagnostics_signs_info    = {'text': 'ℹ'}
+            let g:lsp_diagnostics_signs_hint    = {'text': '➤'}
             let g:lsp_diagnostics_signs_insert_mode_enabled = 0
             let g:lsp_hover_conceal = 0 " disable in terminal
             let g:lsp_semantic_enabled = 1
