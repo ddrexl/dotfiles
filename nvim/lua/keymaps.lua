@@ -38,8 +38,8 @@ map('n', '<Space>', 'za')
 map('n', '<leader>/', '<Cmd>nohlsearch<CR>', { silent = true })
 
 -- Change Working Directory to that of the current file
-map('ca', 'cwd', 'lcd %:p:h')
-map('ca', 'cd.', 'lcd %:p:h')
+-- map('ca', 'cwd', 'lcd %:p:h')
+-- map('ca', 'cd.', 'lcd %:p:h')
 
 -- Visual shifting (does not exit Visual mode)
 map('x', '<', '<gv')

@@ -17,7 +17,7 @@ install_packages() {
         tmux
         tree
         vifm
-        vim-athena
+        neovim
         wl-clipboard # neovim clipboard on wayland/WSLg
         python3-venv # neovim: mason installs basedpyright into a venv
         xsel
