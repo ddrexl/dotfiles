@@ -189,6 +189,24 @@ configure_tmux() {
     echo configure tmux
 
     ln -svf ${DOTDIR}/tmux.conf ~/.tmux.conf
+
+    echo install tmux plugins
+    # cloned directly instead of via "tpm install", which needs a running
+    # server -- and starting one here would trigger a continuum auto-restore
+    local plugins=(
+        tmux-plugins/tpm
+        tmux-plugins/tmux-resurrect
+        tmux-plugins/tmux-continuum
+    )
+    mkdir -p ~/.tmux/plugins
+    for repo in ${plugins[*]}; do
+        local dir=~/.tmux/plugins/${repo##*/}
+        if [ ! -d ${dir} ]; then
+            git clone https://github.com/${repo}.git ${dir}
+        else
+            git -C ${dir} pull --ff-only
+        fi
+    done
 }
 
 configure_git() {
