@@ -9,39 +9,40 @@
 
 -- Leaders must be set before lazy.nvim so <leader> in plugin `keys` specs
 -- resolves to ',' and not the default '\'.
-vim.g.mapleader = ','
-vim.g.maplocalleader = '_'
+vim.g.mapleader = ","
+vim.g.maplocalleader = "_"
 
-require('options')
-require('keymaps')
-require('autocmds')
+require("options")
+require("keymaps")
+require("autocmds")
 
 -- Bootstrap lazy.nvim on first start (replaces InstallVimPlugOnce)
-local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.uv.fs_stat(lazypath) then
+    -- stylua: ignore
     vim.fn.system({
-        'git', 'clone', '--filter=blob:none', '--branch=stable',
-        'https://github.com/folke/lazy.nvim.git', lazypath,
+        "git", "clone", "--filter=blob:none", "--branch=stable",
+        "https://github.com/folke/lazy.nvim.git", lazypath,
     })
 end
 vim.opt.rtp:prepend(lazypath)
 
-require('lazy').setup({
-    spec = { { import = 'plugins' } },
-    install = { colorscheme = { 'solarized' } },
+require("lazy").setup({
+    spec = { { import = "plugins" } },
+    install = { colorscheme = { "solarized" } },
     checker = { enabled = false },
     change_detection = { notify = false },
     rocks = { enabled = false }, -- no plugin needs luarocks
     performance = {
         rtp = {
             -- lazy resets the rtp; keep the treesitter parser dir in it
-            paths = { vim.fn.stdpath('data') .. '/site' },
+            paths = { vim.fn.stdpath("data") .. "/site" },
         },
     },
 })
 
 -- Source local config if available
-local local_config = vim.fn.expand('~/.nvim.local.lua')
+local local_config = vim.fn.expand("~/.nvim.local.lua")
 if vim.uv.fs_stat(local_config) then
     dofile(local_config)
 end

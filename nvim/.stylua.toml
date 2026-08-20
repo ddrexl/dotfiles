@@ -1,0 +1,10 @@
+# Pins the style stylua enforces on save -- see NEOVIM.md. Quoting follows
+# stylua's own default; the indent keys are what differ from it (this config
+# is space-indented, stylua defaults to tabs). Blocks whose layout stylua
+# cannot express (aligned trailing comments, compact multi-item lists) carry
+# `-- stylua: ignore start` / `-- stylua: ignore end` markers, so their
+# quoting is maintained by hand.
+column_width = 120
+indent_type = "Spaces"
+indent_width = 4
+quote_style = "AutoPreferDouble"

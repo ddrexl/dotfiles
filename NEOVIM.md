@@ -150,6 +150,15 @@ edits. (First use in a container: `:MasonToolsInstall`.)
 - `:LspInfo` (`:checkhealth vim.lsp`) — which servers attached and why.
 - `:Lazy log` — what plugin updates pulled in.
 - `:ConformInfo` — which formatter a buffer would use.
+- **Saving a lua file reformats it**: stylua runs on write (`format.lua`),
+  pinned by `nvim/.stylua.toml` to 4-wide space indent, 120 columns and
+  double quotes (`AutoPreferDouble`, stylua's own default). Without that
+  file stylua would also convert the indentation to tabs — ~990 lines.
+  Hand-aligned comment columns and compact multi-item lists carry
+  `-- stylua: ignore` markers, so **their quoting is not maintained by
+  stylua** — match the surrounding double quotes yourself when editing
+  those blocks. `stylua --check --search-parent-directories nvim/` should
+  report nothing to change.
 - LSP log: `~/.local/state/nvim/lsp.log`.
 - nvim-treesitter is **pinned** to the last Neovim-0.11-compatible commit
   (`90cd6580`). When neovim ≥ 0.12 lands in apt: remove the `commit` pin

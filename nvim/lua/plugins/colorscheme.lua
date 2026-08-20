@@ -1,7 +1,7 @@
 -- Truecolor successor of vim-colors-solarized (which was pinned to the
 -- 16-color terminal palette). Transparent background as before.
 return {
-    'maxmx03/solarized.nvim',
+    "maxmx03/solarized.nvim",
     lazy = false,
     priority = 1000,
     opts = {
@@ -17,7 +17,7 @@ return {
         },
     },
     config = function(_, opts)
-        require('solarized').setup(opts)
-        vim.cmd.colorscheme('solarized')
+        require("solarized").setup(opts)
+        vim.cmd.colorscheme("solarized")
     end,
 }
