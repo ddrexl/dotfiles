@@ -28,6 +28,9 @@ alias which-command=whence
 alias k="kubectl"
 alias c="batcat"
 alias d="lazydocker"
+# tmux 3.6 exports COLORTERM=truecolor, which makes tcell paint k9s's
+# hardcoded "black" skin as #000000 instead of the terminal's solarized palette
+alias k9s="TCELL_TRUECOLOR=disable k9s"
 
 # vi mode
 bindkey -v
