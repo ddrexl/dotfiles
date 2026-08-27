@@ -26,6 +26,7 @@
     sp = stash pop
     st = status
     who = log --pretty=format:'%w(120, 0, 38)%C(yellow)%h%Creset %C(green)%<(15,trunc)%an%Creset %C(cyan)%<(12,trunc)%cr%Creset %C(red)%d%Creset %s'  --all
+    wt = worktree
 
     # useful lists - note the plural form
     tags = tag -l
